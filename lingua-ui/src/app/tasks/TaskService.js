@@ -14,10 +14,25 @@ export class TaskService {
     }).then(response => response.data)
   }
 
+  getById(id){
+    return this.$http({
+      method: 'GET',
+      url: `${apiEndpoint}task/` + id
+    }).then(response => response.data)
+  }
+
   createNew(task){
     return this.$http({
       method: 'POST',
       url: `${apiEndpoint}task`,
+      data: task
+    })
+  }
+
+  editTask(id, task){
+    return this.$http({
+      method: 'POST',
+      url: `${apiEndpoint}task/` + id,
       data: task
     })
   }

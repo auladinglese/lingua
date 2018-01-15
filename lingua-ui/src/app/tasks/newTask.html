@@ -44,7 +44,7 @@
           <h5 class="text-info">QUESTIONS</h5>
 
           <div class="questions" ng-repeat="questions in task.task.questions track by $index" ng-init="$indexQ = $index">
-            <div class="btn btn-danger del" ng-click="task.deleteQ($indexQ)">X</div>
+            <div class="btn btn-danger del" ng-click="task.deleteQuestion($indexQ)">X</div>
 
             <div class="form-group">
               <label class="text-info" for="question">Question {{$index+1}}</label>
@@ -71,7 +71,7 @@
 
               <div ng-repeat="answer in task.task.questions[$indexQ].answers track by $index" ng-if="task.task.questions[$indexQ].type == 'multi'">
                 <div class="form-group">
-                  <div class="btn btn-secondary del" ng-click="task.deleteA($indexQ, $index)">X</div>
+                  <div class="btn btn-secondary del" ng-click="task.deleteAnswer($indexQ, $index)">X</div>
                   <label>Answer {{$index+1}}</label>
                   <input type="text" class="form-control" ng-model="task.task.questions[$indexQ].answers[$index]">
                 </div>
@@ -83,7 +83,7 @@
 
           <button type="button" class="btn btn-outline-info" ng-click="task.addQuestion()">Add question</button>
 
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Save new task</button>
+          <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Save task</button>
         </fieldset>
       </form>
     </div>

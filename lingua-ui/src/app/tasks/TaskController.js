@@ -1,23 +1,57 @@
 import {TaskService} from './TaskService'
 
 export class TaskController {
-  static $inject = ['TaskService']
+  static $inject = [ 'TaskService', '$sce', '$state', '$stateParams']
 
-  constructor(taskService) {
-    this.tasks = []
+  task = {
+    questions: [{
+        type: 'open',
+        answers:  ['', '']
+    }]
+  }
+
+  constructor(taskService, $sce, $state, $stateParams) {
     this.taskService = taskService
-    this.taskService.list()
-      .then(tasks => (this.tasks = tasks))
-  }
+    this.$sce = $sce
+    this.$state = $state
+    this.$stateParams = $stateParams
 
-  delete(task) {
-    this.taskService.delete(task.id)
-      .then(() => {
-        const index = this.tasks.indexOf(task)
-        if (index >= 0) {
-          this.tasks.splice(index, 1)
-        }
-      })
+    if (this.$stateParams.id) {
+      this.taskService.getById(this.$stateParams.id)
+        .then(task => this.task = task)
+    }
+
 
   }
+
+  saveTask(){
+    if(this.$stateParams.id){
+      this.taskService.editTask(this.$stateParams.id, this.task)
+        .then(() => this.$state.go('alltasks'))
+    } else {
+      this.taskService.createNew(this.task)
+        .then(() => this.$state.go('alltasks'))
+    }
+  }
+
+  addAnswer(questionIndex){
+    this.task.questions[questionIndex].answers.push('')
+  }
+
+  addQuestion(){
+    this.task.questions.push({ type: 'open', answers: ['', ''] })
+  }
+
+  clearAnswers(questionIndex){
+    this.task.questions[questionIndex].answers = ['', '']
+  }
+
+  deleteQuestion(i){
+    this.task.questions.splice(i, 1)
+  }
+
+  deleteAnswer(qi, ai){
+      this.task.questions[qi].answers.splice(ai, 1)
+  }
+
 }

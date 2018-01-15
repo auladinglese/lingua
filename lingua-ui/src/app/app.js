@@ -1,6 +1,6 @@
 import angular from 'angular'
 import { TaskController } from './tasks/TaskController'
-import { TaskNewController } from './tasks/TaskNewController'
+import { TaskAllController } from './tasks/TaskAllController'
 import { TaskService } from './tasks/TaskService'
 import '@uirouter/angularjs'
 import 'angular-sanitize'
@@ -8,7 +8,7 @@ import 'angular-sanitize'
 
 angular.module('app', ['ui.router', 'ngSanitize'])
   .controller('TaskController', TaskController)
-  .controller('TaskNewController', TaskNewController)
+  .controller('TaskAllController', TaskAllController)
   .service('TaskService', TaskService)
   .config(['$stateProvider', '$urlRouterProvider', /*'$locationProvider',*/ ($stateProvider, $urlRouterProvider /*, $locationProvider*/) => {
 
@@ -20,13 +20,19 @@ angular.module('app', ['ui.router', 'ngSanitize'])
       name: 'newtask',
       url: '/new-task',
       templateUrl: '/app/tasks/newTask.html',
-      controller: 'TaskNewController as task'
+      controller: 'TaskController as task'
+    })
+    $stateProvider.state({
+      name: 'edittask',
+      url: '/edit-task/:id',
+      templateUrl: '/app/tasks/newTask.html',
+      controller: 'TaskController as task'
     })
     $stateProvider.state({
       name: 'alltasks',
       url: '/all-tasks',
       templateUrl: '/app/tasks/allTasks.html',
-      controller: 'TaskController as tasks'
+      controller: 'TaskAllController as tasks'
     })
 
     // $locationProvider.hashPrefix('')
