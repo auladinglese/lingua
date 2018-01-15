@@ -1,0 +1,65 @@
+$danger: #d9534f;
+
+.navbar img {
+  width: 35px;
+}
+
+.container-fluid {
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.new-task {
+  padding: 10px 15px;
+
+  .del {
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    position: relative;
+    float: right;
+  }
+
+  button {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .answers {
+    position: relative;
+
+    .del {
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      top: 39px;
+      right: 8px;
+    }
+  }
+
+  .questions {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 10px;
+    position: relative;
+  }
+}
+
+.all-tasks {
+  ul {
+    padding-left: 15px;
+    margin: 5px 0;
+  }
+
+  .del {
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}
