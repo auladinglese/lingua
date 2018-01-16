@@ -1,18 +1,18 @@
 import {TaskService} from './TaskService'
 
 export class TaskController {
-  static $inject = [ 'TaskService', '$sce', '$state', '$stateParams']
+  static $inject = [ 'TaskService', '$state', '$stateParams']
 
   task = {
+    teacher: '1',
     questions: [{
         type: 'open',
         answers:  ['', '']
     }]
   }
 
-  constructor(taskService, $sce, $state, $stateParams) {
+  constructor(taskService, $state, $stateParams) {
     this.taskService = taskService
-    this.$sce = $sce
     this.$state = $state
     this.$stateParams = $stateParams
 
@@ -27,7 +27,9 @@ export class TaskController {
   saveTask(){
     if(this.$stateParams.id){
       this.taskService.editTask(this.$stateParams.id, this.task)
-        .then(() => this.$state.go('alltasks'))
+        .then(() => {
+          this.$state.go('alltasks'))
+        }
     } else {
       this.taskService.createNew(this.task)
         .then(() => this.$state.go('alltasks'))

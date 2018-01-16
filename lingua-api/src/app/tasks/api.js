@@ -1,20 +1,38 @@
+import Joi from 'joi'
+import { validate } from './validation'
+
 function taskToDto(task) {
   task.id = task._id
   delete task._id
   return task
 }
 
+const taskSchema = Joi.object().keys({
+    teacher: Joi.string().required(),
+    level: Joi.string().allow(null),
+    category: Joi.string().allow(null),
+    subject: Joi.string(),
+    name: Joi.string(),
+    source: Joi.string(),
+    questions: Joi.array().items(Joi.object().keys({
+      question: Joi.string().required(),
+      type: Joi.string().required(),
+      answers: Joi.array().items(Joi.string())
+    })).required()
+})
+
 export function manageTasks(server, taskStorage) {
-  server.post('/task', function(req, resp, next) {
+  server.post('/task', validate(taskSchema), function(req, resp, next) {
     taskStorage.saveTask(req.body)
       .then(function(task) {
         resp.status(201)
+        resp.header('Location', '/task/' + task._id)
         resp.send(taskToDto(task))
         next()
       })
   })
 
-  server.post('/task/:id', function(req, resp, next) {
+  server.post('/task/:id', validate(taskSchema), function(req, resp, next) {
     taskStorage.editTask(req.params.id, req.body)
       .then(function() {
         return taskStorage.getTaskById(req.params.id)

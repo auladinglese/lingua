@@ -1,7 +1,7 @@
 import * as restify from 'restify'
-import {MongoClient} from 'mongodb'
+import { MongoClient } from 'mongodb'
 import * as taskApi from './tasks/api'
-import {MongoTaskStorage} from './tasks/storage'
+import { MongoTaskStorage } from './tasks/storage'
 import restifyCorsMiddleware from 'restify-cors-middleware'
 
 var mongoUrl = 'mongodb://localhost:27017'

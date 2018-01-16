@@ -3,10 +3,9 @@ import { TaskController } from './tasks/TaskController'
 import { TaskAllController } from './tasks/TaskAllController'
 import { TaskService } from './tasks/TaskService'
 import '@uirouter/angularjs'
-import 'angular-sanitize'
 // import domready from 'domready'
 
-angular.module('app', ['ui.router', 'ngSanitize'])
+angular.module('app', ['ui.router'])
   .controller('TaskController', TaskController)
   .controller('TaskAllController', TaskAllController)
   .service('TaskService', TaskService)

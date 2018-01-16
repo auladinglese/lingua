@@ -7,10 +7,10 @@ export class TaskService {
     this.$http = $http
   }
 
-  list(){
+  list(filter){
     return this.$http({
       method: 'GET',
-      url: `${apiEndpoint}tasks`
+      url: `${apiEndpoint}tasks` + filter
     }).then(response => response.data)
   }
 

@@ -24,8 +24,8 @@
   "dependencies": {
     "@uirouter/angularjs": "^1.0.12",
     "angular": "^1.6.8",
-    "angular-sanitize": "^1.6.8",
-    "domready": "^1.0.8"
+    "domready": "^1.0.8",
+    "spinthatshit": "^1.0.4"
   },
   "babel": {
     "presets": [
