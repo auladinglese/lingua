@@ -27,9 +27,7 @@ export class TaskController {
   saveTask(){
     if(this.$stateParams.id){
       this.taskService.editTask(this.$stateParams.id, this.task)
-        .then(() => {
-          this.$state.go('alltasks'))
-        }
+        .then(() => this.$state.go('alltasks'))
     } else {
       this.taskService.createNew(this.task)
         .then(() => this.$state.go('alltasks'))

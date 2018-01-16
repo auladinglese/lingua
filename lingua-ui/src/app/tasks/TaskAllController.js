@@ -1,15 +1,18 @@
 import { TaskService } from './TaskService'
 
 export class TaskAllController {
-  static $inject = ['TaskService']
+  static $inject = ['TaskService', '$scope']
 
   loading = true
   tasks = []
   filter = {}
 
-  constructor(taskService) {
+  constructor(taskService, $scope) {
     this.taskService = taskService
     this.loadTasks('')
+    $scope.$watch(()=>(this.filter), (newValue, oldValue) => {
+      this.filterTasks()
+    }, true)
   }
 
   loadTasks(filter){

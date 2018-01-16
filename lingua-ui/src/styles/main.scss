@@ -86,10 +86,6 @@ $primary: #325D88;
     padding: 2px 10px;
   }
 
-  form label {
-    display: block;
-  }
-
   .filterBar {
     padding-top: 65px;
     margin-left: 30px;
@@ -99,8 +95,8 @@ $primary: #325D88;
       font-weight: 700;
     }
 
-    button {
-      margin-top: 5px;
+    label {
+      display: block;
     }
   }
 }
