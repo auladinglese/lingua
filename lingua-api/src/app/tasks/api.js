@@ -8,16 +8,23 @@ function taskToDto(task) {
 }
 
 const taskSchema = Joi.object().keys({
-    teacher: Joi.string().required(),
+    teacherId: Joi.string().required(),
+    studentId: Joi.string(),
+    dateAssigned: Joi.date().iso(),
+    dateCompleted: Joi.date().iso(),
     level: Joi.string().allow(null),
     category: Joi.string().allow(null),
     subject: Joi.string(),
     name: Joi.string(),
+    instructions: Joi.string(),
     source: Joi.string(),
+    sourceType: Joi.string(),
     questions: Joi.array().items(Joi.object().keys({
       question: Joi.string().required(),
+      maxScore: Joi.number(),
       type: Joi.string().required(),
-      answers: Joi.array().items(Joi.string())
+      answers: Joi.array().items(Joi.string()),
+      studentAnswer: Joi.alternatives([Joi.string(), Joi.object()])
     })).required()
 })
 

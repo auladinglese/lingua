@@ -6,9 +6,7 @@ const babelify = require('babelify')
 const watchify = require('watchify')
 const sass = require('gulp-sass')
 const chalk = require('chalk')
-const {
-  spawn
-} = require('child_process')
+const { spawn } = require('child_process')
 
 gulp.task('html', [], function() {
   return gulp.src('src/**/*.html', {
@@ -69,7 +67,7 @@ gulp.task('js:watch', [], function() {
 })
 
 gulp.task('sass', function() {
-  return gulp.src('./src/styles/**/*.scss')
+  return gulp.src('./src/styles/**/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./dist/styles'));
 });

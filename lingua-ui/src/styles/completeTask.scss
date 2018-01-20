@@ -1,0 +1,49 @@
+.complete-task {
+  .assigned-task {
+    border: 1px solid $primary;
+    color: $primary;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    line-height: 31px;
+    display: flex;
+    align-items: center;
+
+    h6 {
+      margin-bottom: 0;
+    }
+
+    a {
+      margin-right: 10px;
+      color: white;
+    }
+
+    a:hover {
+      color: white;
+    }
+
+    span {
+      height: 14px;
+      margin-left: auto;
+      margin-right: 7px;
+    }
+  }
+
+  .task-details {
+    margin-top: 30px;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    padding: 10px;
+
+    span {
+      margin-left: 10px;
+      vertical-align: text-top;
+    }
+
+    .multiple-answers {
+      label {
+        display: block;
+      }
+    }
+  }
+}

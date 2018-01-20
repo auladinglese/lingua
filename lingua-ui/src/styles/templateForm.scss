@@ -1,0 +1,49 @@
+.new-task,
+.task-form {
+  padding: 10px 15px;
+
+  .del {
+    padding: 0;
+    width: 19px;
+    height: 18px;
+    line-height: 18px;
+    position: relative;
+    float: right;
+    font-size: 19px;
+  }
+
+  form button {
+    display: block;
+    margin: 10px 0;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .answers {
+    position: relative;
+
+    .del {
+      width: 15px;
+      height: 14px;
+      line-height: 15px;
+      top: 39px;
+      right: 8px;
+      font-size: 16px;
+    }
+  }
+
+  .questions {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  input[type="number"] {
+    width: 70px;
+  }
+}

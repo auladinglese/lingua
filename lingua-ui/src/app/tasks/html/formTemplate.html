@@ -1,0 +1,96 @@
+<div class="form-group">
+  <label for="level">Level</label>
+  <select id="level" class="form-control" ng-model="task.task.level" ng-options="level for level in task.levels">
+    <option disabled selected value> -- Select Level -- </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="category">Category</label>
+  <select id="category" class="form-control" ng-model="task.task.category" ng-options="level for level in task.categories">
+    <option disabled selected value> -- Select Category -- </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="subject">Subject</label>
+  <input id="subject" type="text" class="form-control" ng-model="task.task.subject" placeholder="e.g. Food">
+</div>
+
+<div class="form-group">
+  <label for="name">Name</label>
+  <input id="name" type="text" class="form-control" ng-model="task.task.name" placeholder="e.g. Ordering at a restaurant">
+</div>
+
+<div class="form-group">
+  <label for="instructions">Instructions (optional)</label>
+  <textarea id="instructions" class="form-control" ng-model="task.task.instructions" placeholder="Your text"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="source">Source</label>
+  <fieldset class="form-group radio">
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="task.task.sourceType" value="url" >
+      Url
+    </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="task.task.sourceType" value="text">
+      Text
+    </label>
+    </div>
+  </fieldset>
+  <input id="source" type="text" class="form-control" ng-model="task.task.source" ng-if="task.task.sourceType == 'url'" placeholder="e.g. Url to youtube video">
+  <textarea id="source" class="form-control" ng-if="task.task.sourceType == 'text'" ng-model="task.task.source" rows="5" placeholder="Your text"></textarea>
+</div>
+
+<h5 class="text-info">QUESTIONS</h5>
+
+<div class="questions" ng-repeat="questions in task.task.questions track by $index" ng-init="$indexQ = $index">
+  <div class="btn btn-danger del" ng-click="task.deleteQuestion($indexQ)">&times;</div>
+
+  <div class="form-group">
+    <label class="text-info" for="question{{$index+1}}">Question {{$index+1}}</label>
+    <input id= "question{{$index+1}}" type="text" class="form-control" ng-model="task.task.questions[$indexQ].question" required>
+  </div>
+
+  <div class="form-group">
+    <label for="score{{$index+1}}">Max score
+      <input id="score{{$index+1}}" type="number" class="form-control" ng-model="task.task.questions[$indexQ].maxScore">
+    </label>
+  </div>
+
+  <fieldset class="form-group radio">
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="task.task.questions[$indexQ].type" value="open" ng-click="task.clearAnswers($indexQ)">
+      Open Answer
+    </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="task.task.questions[$indexQ].type" value="multi">
+      Multiple Choice
+    </label>
+    </div>
+  </fieldset>
+
+  <div class="answers" ng-show="task.task.questions[$indexQ].type == 'multi'">
+    <h6 class="text-success">Q{{$index+1}} ANSWERS</h6>
+
+    <div ng-repeat="answer in task.task.questions[$indexQ].answers track by $index" ng-if="task.task.questions[$indexQ].type == 'multi'">
+      <div class="form-group">
+        <div class="btn btn-secondary del" ng-click="task.deleteAnswer($indexQ, $index)">&times;</div>
+        <label for="answer{{$index+1}}">Answer {{$index+1}}</label>
+        <input id="answer{{$index+1}}" type="text" class="form-control" ng-model="task.task.questions[$indexQ].answers[$index]">
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-success" ng-click="task.addAnswer($indexQ)">Add answer</button>
+  </div>
+</div>
+
+<button type="button" class="btn btn-outline-info" ng-click="task.addQuestion()">Add question</button>

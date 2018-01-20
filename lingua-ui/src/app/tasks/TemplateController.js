@@ -1,36 +1,41 @@
 import {TaskService} from './TaskService'
 
-export class TaskController {
-  static $inject = [ 'TaskService', '$state', '$stateParams']
+export class TemplateController {
+  static $inject = [ 'TaskService', '$state', '$stateParams', '$scope', '$window']
 
   task = {
-    teacher: '1',
+    teacherId: '1',
+    sourceType: 'url',
     questions: [{
         type: 'open',
         answers:  ['', '']
     }]
   }
+  levels = ['Beginner', 'Intermediate', 'Advanced']
+  categories = ['Grammar', 'Listening', 'Reading', 'Writing']
+  savedAlert = false
 
-  constructor(taskService, $state, $stateParams) {
+  constructor(taskService, $state, $stateParams, $scope, $window) {
     this.taskService = taskService
     this.$state = $state
     this.$stateParams = $stateParams
+    this.$window = $window
 
     if (this.$stateParams.id) {
       this.taskService.getById(this.$stateParams.id)
-        .then(task => this.task = task)
+        .then(task => {
+          this.task = task
+        })
     }
-
-
   }
 
   saveTask(){
     if(this.$stateParams.id){
       this.taskService.editTask(this.$stateParams.id, this.task)
-        .then(() => this.$state.go('alltasks'))
+        .then(() => this.$state.go('templates'))
     } else {
       this.taskService.createNew(this.task)
-        .then(() => this.$state.go('alltasks'))
+        .then(() => this.savedAlert = true)
     }
   }
 
@@ -52,6 +57,11 @@ export class TaskController {
 
   deleteAnswer(qi, ai){
       this.task.questions[qi].answers.splice(ai, 1)
+  }
+
+  backToTop(){
+    this.$window.scroll(0,0)
+    this.savedAlert = false
   }
 
 }
