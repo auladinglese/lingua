@@ -1,5 +1,15 @@
 import uuid from 'uuid/v4'
-// import moment from 'moment'
+
+function toModel(mongoObject) {
+  if (!mongoObject) {
+    return null
+  }
+
+  mongoObject.id = mongoObject._id
+  delete mongoObject._id
+  return mongoObject
+}
+
 
 export class MongoTaskStorage {
   constructor(mongoClient) {
@@ -7,23 +17,24 @@ export class MongoTaskStorage {
       .collection('tasks')
   }
 
-  saveTask(task) {
+  saveNew(task) {
     task._id = uuid()
     return this.taskCollection.save(task)
-      .then(() => task)
+      .then(() => toModel(task))
   }
 
-  editTask(id, task) {
+  update(id, task) {
     return this.taskCollection
       .update({ _id: id }, { "$set": task })
   }
 
-  getTaskById(id) {
+  getById(id) {
     return this.taskCollection
       .findOne({ _id: id })
+      .then(toModel)
   }
 
-  deleteTask(id) {
+  delete(id) {
     return this.taskCollection
       .deleteOne({ _id: id })
   }
@@ -38,7 +49,7 @@ export class MongoTaskStorage {
   }
 
   //tasks?teacherId=1&level=beginner&category=grammar&subject=food&name=smth
-  listTasks(filter) {
+  list(filter) {
     const mongoQuery = {}
 
     if(filter.teacherId){
@@ -71,6 +82,7 @@ export class MongoTaskStorage {
 
     return this.taskCollection
       .find(mongoQuery)
+      .map(toModel)
       .toArray()
   }
 }

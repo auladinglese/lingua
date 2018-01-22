@@ -7,6 +7,12 @@ $info: #29ABE0;
 $success: #93C54B;
 $secondary: #8E8C84;
 
+
+.ng-hide-add,
+.ng-hide-remove {
+  display: none !important;
+}
+
 .navbar img {
   width: 35px;
 }
@@ -39,5 +45,5 @@ $secondary: #8E8C84;
 
 @import './templateForm.scss';
 @import './allTemplates.scss';
-@import './assignTask.scss';
-@import './completeTask.scss';
+@import './assignLesson.scss';
+@import './completeLesson.scss';

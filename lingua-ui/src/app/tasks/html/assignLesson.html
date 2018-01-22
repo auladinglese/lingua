@@ -1,0 +1,51 @@
+<div class="container-fluid task-assignment">
+  <div class="row">
+    <div class="col-sm-10 col-md-8 offset-sm-1 offset-md-2">
+      <h3 class="text-primary">Lesson assignment</h3>
+      <div class="student-info">
+        <h4>Lesson for <strong>PETER PETERSON</strong></h4>
+        <button class="btn btn-primary saveBtn" ng-click="assign.createLesson()" ng-if="!assign.$stateParams.lessonId">Create new lesson</button>
+        <h5 class="text-primary" ng-if="assign.$stateParams.lessonId">TASKS</h5>
+        <p ng-if="assign.$stateParams.lessonId && !assign.lessonTasks[0]">No tasks in this lesson yet. Please use the form below to add tasks.</p>
+
+        <div class="assigned-task" ng-repeat="task in assign.lessonTasks">
+          {{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}
+          <div class="btn btn-danger del" ng-click="assign.deleteTask(task)" ng-cloak>&times;</div>
+        </div>
+        <button class="btn btn-primary btn-block saveBtn" ng-click="assign.assignLesson()" ng-if="assign.lessonTasks[0]">Assign lesson</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-10 col-sm-4 templates" ng-controller="TemplateListController as templates">
+      <h5 class="text-success">FILTER TEMPLATES BY:</h5>
+
+      <div ng-include="'app/tasks/html/filter.html'"></div>
+
+      <h6>SELECT A TEMPLATE TO USE:</h6>
+      <a ui-sref="assignLesson({ id: null })">(Remove template)</a>
+      <div class="task-list">
+        <div class="task-list-item" ng-repeat="template in templates.templates | filter: {studentId: '!'} | orderBy: ['level', 'category']">
+          <a ui-sref="assignLesson({ templateId: template.id })">&raquo; {{template.level}} / {{template.category}} / {{template.subject}} / {{template.name}}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-7 task-form" ng-controller="TemplateController as ctrl">
+      <form ng-submit="assign.addTask(ctrl.template)" ng-cloak>
+        <fieldset>
+          <h5 class="text-primary">NEW TASK</h5>
+
+          <div ng-include="'app/tasks/html/formTemplate.html'"></div>
+
+          <label class="form-check-label save-as">
+              <input class="form-check-input" type="checkbox" ng-model="assign.saveAsTemplate" >
+              Save as a new template
+            </label>
+          <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Add task to lesson</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

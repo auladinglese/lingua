@@ -3,7 +3,7 @@ import {TaskService} from './TaskService'
 export class TemplateController {
   static $inject = [ 'TaskService', '$state', '$stateParams', '$scope', '$window']
 
-  task = {
+  template = {
     teacherId: '1',
     sourceType: 'url',
     questions: [{
@@ -21,42 +21,42 @@ export class TemplateController {
     this.$stateParams = $stateParams
     this.$window = $window
 
-    if (this.$stateParams.id) {
-      this.taskService.getById(this.$stateParams.id)
-        .then(task => {
-          this.task = task
+    if (this.$stateParams.templateId) {
+      this.taskService.getById(this.$stateParams.templateId)
+        .then(template => {
+          this.template = template
         })
     }
   }
 
-  saveTask(){
-    if(this.$stateParams.id){
-      this.taskService.editTask(this.$stateParams.id, this.task)
+  saveTemplate(){
+    if(this.$stateParams.templateId){
+      this.taskService.editTask(this.$stateParams.templateId, this.template)
         .then(() => this.$state.go('templates'))
     } else {
-      this.taskService.createNew(this.task)
+      this.taskService.createNew(this.template)
         .then(() => this.savedAlert = true)
     }
   }
 
   addAnswer(questionIndex){
-    this.task.questions[questionIndex].answers.push('')
+    this.template.questions[questionIndex].answers.push('')
   }
 
   addQuestion(){
-    this.task.questions.push({ type: 'open', answers: ['', ''] })
+    this.template.questions.push({ type: 'open', answers: ['', ''] })
   }
 
   clearAnswers(questionIndex){
-    this.task.questions[questionIndex].answers = ['', '']
+    this.template.questions[questionIndex].answers = ['', '']
   }
 
   deleteQuestion(i){
-    this.task.questions.splice(i, 1)
+    this.template.questions.splice(i, 1)
   }
 
   deleteAnswer(qi, ai){
-      this.task.questions[qi].answers.splice(ai, 1)
+      this.template.questions[qi].answers.splice(ai, 1)
   }
 
   backToTop(){

@@ -2,18 +2,20 @@ import angular from 'angular'
 import { TemplateController } from './tasks/TemplateController'
 import { TemplateListController } from './tasks/TemplateListController'
 import { AssignmentController } from './tasks/AssignmentController'
-import { CompleteTaskController } from './tasks/CompleteTaskController'
-import { MarkTaskController } from './tasks/MarkTaskController'
+import { CompleteLessonController } from './tasks/CompleteLessonController'
+import { MarkLessonController } from './tasks/MarkLessonController'
 import { TaskService } from './tasks/TaskService'
+import { LessonService } from './tasks/LessonService'
 import '@uirouter/angularjs'
 
 angular.module('app', ['ui.router'])
   .controller('TemplateController', TemplateController)
   .controller('TemplateListController', TemplateListController)
   .controller('AssignmentController', AssignmentController)
-  .controller('CompleteTaskController', CompleteTaskController)
-  .controller('MarkTaskController', MarkTaskController)
+  .controller('CompleteLessonController', CompleteLessonController)
+  .controller('MarkLessonController', MarkLessonController)
   .service('TaskService', TaskService)
+  .service('LessonService', LessonService)
   .config(['$stateProvider', '$urlRouterProvider', /*'$locationProvider',*/ ($stateProvider, $urlRouterProvider /*, $locationProvider*/) => {
 
     $stateProvider.state({
@@ -24,26 +26,13 @@ angular.module('app', ['ui.router'])
       name: 'newTemplate',
       url: '/new-template',
       templateUrl: '/app/tasks/html/newTemplate.html',
-      controller: 'TemplateController as task'
+      controller: 'TemplateController as ctrl'
     })
     $stateProvider.state({
       name: 'editTemplate',
-      url: '/edit-template/:id',
+      url: '/edit-template/:templateId',
       templateUrl: '/app/tasks/html/newTemplate.html',
-      controller: 'TemplateController as task'
-    })
-    $stateProvider.state({
-      name: 'asssignTask',
-      url: '/task-assignment/:id?level&category&subject&name',
-      params: {
-        id: {value: null},
-        level: {dynamic: true},
-        category: {dynamic: true},
-        subject: {dynamic: true},
-        name: {dynamic: true}
-      },
-      templateUrl: '/app/tasks/html/assignTask.html',
-      controller: 'AssignmentController as assign'
+      controller: 'TemplateController as ctrl'
     })
     $stateProvider.state({
       name: 'templates',
@@ -55,20 +44,37 @@ angular.module('app', ['ui.router'])
         name: {dynamic: true}
       },
       templateUrl: '/app/tasks/html/templates.html',
-      controller: 'TemplateListController as tasks'
+      controller: 'TemplateListController as templates'
     })
     $stateProvider.state({
-      name: 'completeTask',
-      url: '/my-tasks/:id',
-      params: { id: {value: null} },
-      templateUrl: '/app/tasks/html/completeTask.html',
-      controller: 'CompleteTaskController as complete'
+      name: 'assignLesson',
+      url: '/assignment/lesson-:lessonId/:templateId?level&category&subject&name',
+      params: {
+        lessonId: {value: null},
+        templateId: {value: null},
+        level: {dynamic: true},
+        category: {dynamic: true},
+        subject: {dynamic: true},
+        name: {dynamic: true}
+      },
+      templateUrl: '/app/tasks/html/assignLesson.html',
+      controller: 'AssignmentController as assign'
     })
     $stateProvider.state({
-      name: 'markTask',
-      url: '/masrk-tasks',
-      templateUrl: '/app/tasks/html/markTask.html',
-      controller: 'MarkTaskController as mark'
+      name: 'completeLesson',
+      url: '/my-lessons/lesson:lessonId/:taskId',
+      params: {
+        lessonId: {dynamic: true, value: null},
+        taskId: {dynamic: true, value: null}
+      },
+      templateUrl: '/app/tasks/html/completeLesson.html',
+      controller: 'CompleteLessonController as complete'
+    })
+    $stateProvider.state({
+      name: 'markLesson',
+      url: '/masrk-lessons',
+      templateUrl: '/app/tasks/html/markLesson.html',
+      controller: 'MarkLessonController as mark'
     })
 
 

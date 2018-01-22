@@ -1,4 +1,13 @@
 .complete-task {
+  .lessons {
+    margin-top: 50px;
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  }
+
   .assigned-task {
     border: 1px solid $primary;
     color: $primary;
@@ -13,9 +22,8 @@
       margin-bottom: 0;
     }
 
-    a {
+    button {
       margin-right: 10px;
-      color: white;
     }
 
     a:hover {
@@ -23,7 +31,7 @@
     }
 
     span {
-      height: 14px;
+      height: 15px;
       margin-left: auto;
       margin-right: 7px;
     }
@@ -45,5 +53,23 @@
         display: block;
       }
     }
+
+    .source-link {
+      text-decoration: underline;
+    }
+  }
+  .save-as {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+
+  .submitBtn{
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+  .submited-note{
+    margin-bottom: 10px;
+    font-size: 13px;
   }
 }

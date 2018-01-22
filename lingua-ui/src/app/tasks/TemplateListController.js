@@ -4,7 +4,7 @@ export class TemplateListController {
   static $inject = ['TaskService', '$scope', '$state', '$timeout', '$location']
 
   loading = true
-  tasks = []
+  templates = []
   filter = {}
   levels = ['Beginner', 'Intermediate', 'Advanced']
   categories = ['Grammar', 'Listening', 'Reading', 'Writing']
@@ -14,36 +14,35 @@ export class TemplateListController {
     this.taskService = taskService
     this.$state = $state
     this.$location = $location
-    this.loadTasks()
+    this.reloadFilter()
     $scope.$watch(()=>(this.filter), (newValue, oldValue) => {
       if (this.initializing) {
         $timeout(() => this.initializing = false );
       } else {
-        this.filterTasks()
+        this.filterTemplates()
       }
     }, true)
-    this.reloadFilter()
   }
 
-  loadTasks(filter = ''){
+  loadTemplates(filter = ''){
     this.taskService.list(filter)
-      .then(tasks => {
-        this.tasks = tasks
+      .then(templates => {
+        this.templates = templates
         this.loading = false
       }).catch(() => this.loading = false)
   }
 
-  delete(task) {
-    this.taskService.delete(task.id)
+  delete(template) {
+    this.taskService.delete(template.id)
       .then(() => {
-        const index = this.tasks.indexOf(task)
+        const index = this.templates.indexOf(template)
         if (index >= 0) {
-          this.tasks.splice(index, 1)
+          this.templates.splice(index, 1)
         }
       })
   }
 
-  filterTasks(){
+  filterTemplates(){
     let filter = '?'
     let selectedLevels = []
     let selectedCategories = []
@@ -70,10 +69,10 @@ export class TemplateListController {
     if (this.$location.path() === '/templates') {
       this.$state.go('templates', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
     } else {
-      this.$state.go('asssignTask', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
+      this.$state.go('assignLesson', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
     }
 
-    this.loadTasks(filter)
+    this.loadTemplates(filter)
   }
 
   reloadFilter(){
@@ -82,7 +81,7 @@ export class TemplateListController {
     this.filter.subject = this.$state.params.subject
     this.filter.name = this.$state.params.name
 
-    this.filterTasks()
+    this.filterTemplates()
   }
 
   reloadSelectFilter(params, filter){
@@ -105,7 +104,7 @@ export class TemplateListController {
 
   clearFilter(){
     this.filter = {};
-    this.loadTasks()
+    this.loadTemplates()
   }
 
 }

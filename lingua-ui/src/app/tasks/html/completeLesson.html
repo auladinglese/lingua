@@ -1,0 +1,59 @@
+<div class="container-fluid complete-task">
+  <div class="row">
+    <div class="col-sm-2 offset-sm-1">
+      <div class="lessons">
+        <h5><strong>MY LESSONS</strong></h5>
+        <ul>
+          <li ng-repeat="lesson in complete.lessons"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <h3 class="text-primary" ng-if="complete.openedLesson">LESSON - {{ complete.openedLesson.dateAssigned | date:'MMM d, HH:mm' }}</h3>
+      <button class="btn btn-danger btn-lg submitBtn" ng-click="complete.submitLesson()" ng-if="!complete.openedLesson.dateSubmitted && complete.allTasksCompleted">Submit for evaluation</button>
+      <div class="badge badge-pill badge-info submited-note" ng-if="complete.openedLesson.dateSubmitted">Lesson was submited for evaluation at {{ complete.openedLesson.dateAssigned | date:'HH:mm' }} on {{ complete.openedLesson.dateAssigned | date:'MMM d, yyyy' }}.</div>
+      
+      <div class="assigned-task" ng-repeat="task in complete.lessonTasks | orderBy:['category', 'level']">
+        <button class="btn btn-primary btn-sm" ng-click="complete.openTask(task.id)" ng-hide="task.id == complete.task.id">Open Task</button>
+        <button class="btn btn-info btn-sm" ng-click="complete.closeTask()" ng-show="task.id === complete.task.id">Close</button>
+        <h6>{{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}</h6>
+        <span class="badge badge-pill badge-danger" ng-if="!task.dateWorked && !task.completed">To Do</span>
+        <span class="badge badge-pill badge-warning" ng-if="task.dateWorked && !task.completed">In Progress</span>
+        <span class="badge badge-pill badge-success" ng-if="task.completed">Done</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-7 offset-sm-3" ng-if="complete.task.questions">
+      <div class="task-details">
+        <p ng-if="!complete.allTasksCompleted"><small>* Do not forget to SAVE before closing the task.</small></p>
+        <h5 class="text-primary">{{ complete.task.level }} / {{ complete.task.category }} / {{ complete.task.subject }}</h5>
+        <h4 class="text-primary">{{ complete.task.name }}</h4>
+        <p ng-if="complete.task.instructions">{{ complete.task.instructions }}</p>
+        <p ng-if="complete.task.sourceType === 'text'">{{ complete.task.source }}</p>
+        <p><a class="text-info source-link" ng-if="complete.task.sourceType === 'url'" href="{{complete.task.source}}" target=”_blank”>{{ complete.task.source }}</a></p>
+
+        <form ng-submit="complete.saveTask()">
+          <div class="form-group" ng-repeat="q in complete.task.questions track by $index" ng-init="$indexQ = $index">
+            <label for="answer{{$indexQ}}">{{ q.question }}
+              <span class="badge badge-pill badge-light">{{ q.maxScore }} points</span>
+            </label>
+            <textarea id="answer{{$indexQ}}" class="form-control" ng-if="q.type === 'open'" ng-model="complete.task.questions[$indexQ].studentAnswer" placeholder="Your Answer" ng-disabled="complete.openedLesson.dateSubmitted"></textarea>
+            <div class="form-check multiple-answers">
+              <label class="form-check-label" ng-repeat="answer in q.answers">
+                <input class="form-check-input" type="checkbox" ng-model="complete.task.questions[$indexQ].studentAnswer[answer]" ng-disabled="complete.openedLesson.dateSubmitted">
+                  {{ answer }}
+              </label>
+            </div>
+          </div>
+          <label class="form-check-label save-as" ng-if="!complete.openedLesson.dateSubmitted">
+              <input class="form-check-input" type="checkbox" ng-model="complete.task.completed">
+              Mark as complete
+            </label>
+          <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn" ng-if="!complete.openedLesson.dateSubmitted">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
