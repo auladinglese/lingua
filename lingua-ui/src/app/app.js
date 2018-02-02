@@ -1,19 +1,21 @@
+import 'babel-polyfill'
 import angular from 'angular'
 import { TemplateController } from './tasks/TemplateController'
 import { TemplateListController } from './tasks/TemplateListController'
 import { AssignmentController } from './tasks/AssignmentController'
 import { CompleteLessonController } from './tasks/CompleteLessonController'
-import { MarkLessonController } from './tasks/MarkLessonController'
+import { EvaluateLessonController } from './tasks/EvaluateLessonController'
 import { TaskService } from './tasks/TaskService'
 import { LessonService } from './tasks/LessonService'
+import './auth/AuthModule'
 import '@uirouter/angularjs'
 
-angular.module('app', ['ui.router'])
+angular.module('app', ['ui.router', 'auth'])
   .controller('TemplateController', TemplateController)
   .controller('TemplateListController', TemplateListController)
   .controller('AssignmentController', AssignmentController)
   .controller('CompleteLessonController', CompleteLessonController)
-  .controller('MarkLessonController', MarkLessonController)
+  .controller('EvaluateLessonController', EvaluateLessonController)
   .service('TaskService', TaskService)
   .service('LessonService', LessonService)
   .config(['$stateProvider', '$urlRouterProvider', /*'$locationProvider',*/ ($stateProvider, $urlRouterProvider /*, $locationProvider*/) => {
@@ -64,17 +66,21 @@ angular.module('app', ['ui.router'])
       name: 'completeLesson',
       url: '/my-lessons/lesson:lessonId/:taskId',
       params: {
-        lessonId: {dynamic: true, value: null},
+        lessonId: {value: null},
         taskId: {dynamic: true, value: null}
       },
       templateUrl: '/app/tasks/html/completeLesson.html',
       controller: 'CompleteLessonController as complete'
     })
     $stateProvider.state({
-      name: 'markLesson',
-      url: '/masrk-lessons',
-      templateUrl: '/app/tasks/html/markLesson.html',
-      controller: 'MarkLessonController as mark'
+      name: 'evaluateLesson',
+      url: '/evaluate-lessons/lesson:lessonId/:taskId',
+      params: {
+        lessonId: {value: null},
+        taskId: {dynamic: true, value: null}
+      },
+      templateUrl: '/app/tasks/html/evaluateLesson.html',
+      controller: 'EvaluateLessonController as evaluate'
     })
 
 

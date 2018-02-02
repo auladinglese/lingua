@@ -7,14 +7,19 @@ $info: #29ABE0;
 $success: #93C54B;
 $secondary: #8E8C84;
 
-
 .ng-hide-add,
 .ng-hide-remove {
   display: none !important;
 }
 
-.navbar img {
-  width: 35px;
+.navbar {
+  .form-inline button {
+    margin-right: 5px;
+  }
+
+  img {
+    width: 35px;
+  }
 }
 
 .container-fluid {
@@ -34,6 +39,23 @@ $secondary: #8E8C84;
   font-weight: 400;
 }
 
+.login-form {
+  margin-top: 50px;
+
+  button,
+  input {
+    margin-top: 15px;
+  }
+
+}
+
+.reg-form{
+  margin-top: 50px;
+  .form-control, fieldset {
+      margin-top: 15px;
+  }
+}
+
 .loader {
   @include loader07($align: middle, $color: $primary, $size: 15px);
 }
@@ -42,7 +64,6 @@ $secondary: #8E8C84;
   height: 150px;
   width: 100%;
 }
-
 @import './templateForm.scss';
 @import './allTemplates.scss';
 @import './assignLesson.scss';

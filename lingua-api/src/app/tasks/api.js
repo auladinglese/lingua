@@ -1,11 +1,13 @@
 import Joi from 'joi'
 import { validate } from '../validation'
+import { mustAuthenticate } from '../auth'
 
 const taskSchema = Joi.object().keys({
     teacherId: Joi.string().required(),
     studentId: Joi.string().allow(null),
     dateWorked: Joi.date().iso(),
     completed: Joi.boolean(),
+    evaluated: Joi.boolean(),
     level: Joi.string().allow(null),
     category: Joi.string().allow(null),
     subject: Joi.string(),
@@ -15,25 +17,27 @@ const taskSchema = Joi.object().keys({
     sourceType: Joi.string(),
     questions: Joi.array().items(Joi.object().keys({
       question: Joi.string().required(),
-      maxScore: Joi.number(),
+      // maxScore: Joi.number(),
       type: Joi.string().required(),
       answers: Joi.array().items(Joi.string()),
-      studentAnswer: Joi.alternatives([Joi.string(), Joi.object()])
+      studentAnswer: Joi.alternatives([Joi.string(), Joi.object()]),
+      evaluation: Joi.string(),
+      evalComments: Joi.string()
     })).required()
 })
 
 export function register(server, storage) {
-  server.post('/task', validate(taskSchema), function(req, resp, next) {
+  server.post('/task', mustAuthenticate(), validate(taskSchema), function(req, resp, next) {
     storage.saveNew(req.body)
       .then(function(task) {
         resp.status(201)
-        resp.header('Location', '/task/' + task._id)
+        resp.header('Location', '/task/' + task.id)
         resp.send(task)
         next()
       })
   })
 
-  server.post('/task/:id', validate(taskSchema), function(req, resp, next) {
+  server.post('/task/:id', mustAuthenticate(), validate(taskSchema), function(req, resp, next) {
     storage.update(req.params.id, req.body)
       .then(function() {
         return storage.getById(req.params.id)
@@ -51,7 +55,7 @@ export function register(server, storage) {
       })
   })
 
-  server.get('/tasks', function(req, resp, next) {
+  server.get('/tasks', mustAuthenticate(), function(req, resp, next) {
     storage.list(req.query)
       .then(function(tasks) {
         resp.send(tasks)
@@ -59,7 +63,7 @@ export function register(server, storage) {
       })
   })
 
-  server.get('/task/:id', function(req, resp, next) {
+  server.get('/task/:id', mustAuthenticate(), function(req, resp, next) {
     storage.getById(req.params.id)
       .then(function(task) {
         if (!task) {
@@ -74,7 +78,7 @@ export function register(server, storage) {
       })
   })
 
-  server.del('/task/:id', function(req, resp, next) {
+  server.del('/task/:id', mustAuthenticate(), function(req, resp, next) {
     storage.delete(req.params.id)
       .then(() => {
         resp.status(204)

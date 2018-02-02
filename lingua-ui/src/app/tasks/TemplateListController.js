@@ -15,7 +15,7 @@ export class TemplateListController {
     this.$state = $state
     this.$location = $location
     this.reloadFilter()
-    $scope.$watch(()=>(this.filter), (newValue, oldValue) => {
+    $scope.$watch(()=>this.filter, (newValue, oldValue) => {
       if (this.initializing) {
         $timeout(() => this.initializing = false );
       } else {

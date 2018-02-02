@@ -4,7 +4,7 @@ import moment from 'moment'
 
 
 
-export class CompleteLessonController {
+export class EvaluateLessonController {
   static $inject = ['TaskService', 'LessonService', '$stateParams', '$state']
 
   task = {}
@@ -55,11 +55,11 @@ export class CompleteLessonController {
   }
 
   checkIfCompleted(){
-    let incomplete = this.lessonTasks.filter((task) => !task.completed).length
-    if(incomplete === 0){
-      this.allTasksCompleted = true
+    let unevaluated = this.lessonTasks.filter((task) => !task.evaluated).length
+    if(unevaluated === 0){
+      this.allTasksEvaluated = true
     } else {
-      this.allTasksCompleted = false
+      this.allTasksEvaluated = false
     }
   }
 
@@ -67,7 +67,7 @@ export class CompleteLessonController {
     this.getTaskList(lessonId)
       .then(() => {
         this.task = {}
-        this.$state.go('completeLesson', {lessonId: lessonId, taskId: null})
+        this.$state.go('evaluateLesson', {lessonId: lessonId, taskId: null})
       })
   }
 
@@ -75,28 +75,28 @@ export class CompleteLessonController {
     this.taskService.getById(taskId)
       .then(task => {
         this.task = task
-        this.$state.go('completeLesson', {taskId: taskId})
+        this.$state.go('evaluateLesson', {taskId: taskId})
       })
   }
 
   closeTask(){
     this.task = {}
-    this.$state.go('completeLesson', {taskId: null})
+    this.$state.go('evaluateLesson', {taskId: null})
   }
 
-  saveTask(){
-    this.task.dateWorked = moment()
+  saveEvaluation(){
+    this.task.evaluated = true
     this.taskService.editTask(this.task.id, this.task)
       .then(() => {
         this.openLesson(this.openedLesson.id)
-        this.$state.go('completeLesson', {lessonId: this.openedLesson.id, taskId: null}
+        this.$state.go('evaluateLesson', {lessonId: this.openedLesson.id, taskId: null}
       )})
   }
 
-  submitLesson(){
-    this.openedLesson.dateSubmitted = moment()
+  sendEvaluation(){
+    this.openedLesson.dateEvaluated = moment()
     this.lessonService.update(this.openedLesson.id, this.openedLesson)
-      .then(() => this.$state.reload())
+      .then(() => this.$state.go('evaluateLesson', {lessonId: null}))
   }
 
 

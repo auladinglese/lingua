@@ -22,7 +22,7 @@
                   <li ng-repeat="answ in q.answers track by $index" ng-hide="answ == ''">{{answ}}</li>
                 </ol>
               </ul>
-              <a class="btn btn-outline-primary edit" ui-sref="editTemplate({ id: template.id })">Edit</a>
+              <a class="btn btn-outline-primary edit" ui-sref="editTemplate({ templateId: template.id })">Edit</a>
             </div>
           </div>
         </div>
