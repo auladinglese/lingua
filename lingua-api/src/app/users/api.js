@@ -3,7 +3,7 @@ import { validate } from '../validation'
 
 const userSchema = Joi.object().keys({
     name: Joi.string().required(),
-    login: Joi.string().alphanum().required(),
+    username: Joi.string().alphanum().required(),
     password: Joi.string().required(),
     claims: Joi.array().items(
         Joi.object().keys({

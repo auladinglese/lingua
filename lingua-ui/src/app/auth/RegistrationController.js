@@ -26,7 +26,7 @@ export class RegistrationController {
   }
 
   async usernameFree(){
-    const username = await this.userService.list('?username=' + this.user.login)
+    const username = await this.userService.list('?username=' + this.user.username)
     if (username.length > 0) {
       this.messages.username = 'Sorry, that username is taken. Try another?'
       return false
@@ -43,9 +43,9 @@ export class RegistrationController {
         value: this.user.role
       }]
       await this.userService.createNew(this.user)
-      const resp = await this.oauthService.getToken('lingua', 'secret', this.user.login, this.user.password)
+      const resp = await this.oauthService.getToken('lingua', 'secret', this.user.username, this.user.password)
       this.securityContext.setToken(resp.access_token)
-      this.$state.go('home')
+      this.$state.go('dashboard')
     } else {
       this.$scope.$apply()
     }

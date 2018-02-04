@@ -15,7 +15,7 @@ async function toMongoObject(id, user) {
   return {
     _id: id,
     name: user.name,
-    login: user.login,
+    username: user.username,
     password: user.password ? await hash(user.password) : undefined,
     claims: user.claims
   }
@@ -29,7 +29,7 @@ export class MongoUserStorage {
 
   async verifyCredentials(username, password) {
     const user = await this.userCollection
-      .findOne({ login: username })
+      .findOne({ username: username })
     if (!user) {
       return null
     }
@@ -48,16 +48,7 @@ export class MongoUserStorage {
     await this.userCollection.save(saved)
     return toModel(saved)
   }
-  // saveNew(user) {
-  //   user._id = uuid()
-  //   return this.userCollection.save(user)
-  //     .then(() => toModel(user))
-  // }
 
-  // update(id, user) {
-  //   return this.userCollection
-  //     .update({ _id: id }, { "$set": user })
-  // }
   async update(id, user) {
     const saved = await toMongoObject(id, user)
 
@@ -79,7 +70,7 @@ export class MongoUserStorage {
     const mongoQuery = {}
 
     if(filter.username){
-      mongoQuery.login = filter.username
+      mongoQuery.username = filter.username
     }
 
     if(filter.role){

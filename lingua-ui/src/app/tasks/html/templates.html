@@ -8,7 +8,7 @@
     <div class="col-sm-12 col-md-9">
       <h3 class="text-primary">TASK TEMPLATES</h3>
       <div class="row">
-        <div class="col-12 col-sm-6 col-lg-4" ng-repeat="template in templates.templates | filter: {studentId: '!'} | orderBy: ['level', 'category']">
+        <div class="col-12 col-sm-6 col-lg-4" ng-repeat="template in templates.templates | orderBy: ['level', 'category']">
           <div class="card border-dark mb-3">
             <button class="btn btn-danger del" ng-click="templates.delete(template)">&times;</button>
             <div class="card-header">{{template.level}} / {{template.category}}</div>

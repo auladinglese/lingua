@@ -1,0 +1,26 @@
+<div class="task-details">
+  <h5 class="text-primary">{{ complete.task.level }} / {{ complete.task.category }} / {{ complete.task.subject }}</h5>
+  <h4 class="text-primary">{{ complete.task.name }}</h4>
+  <p ng-if="complete.task.instructions">{{ complete.task.instructions }}</p>
+  <p ng-if="complete.task.sourceType === 'text'">{{ complete.task.source }}</p>
+  <p><a class="text-info source-link" ng-if="complete.task.sourceType === 'url'" href="{{complete.task.source}}" target=”_blank”>{{ complete.task.source }}</a></p>
+
+  <div class="form-group" ng-repeat="q in complete.task.questions">
+    <h6 class="text-info">
+      <strong class="text-success" ng-if="q.evaluation === 'correct'">&#10004;</strong>
+      <strong class="text-warning" ng-if="q.evaluation === 'partCorrect'">&plusmn;</strong>
+      <strong class="text-danger" ng-if="q.evaluation === 'incorrect'">x</strong>
+      {{ q.question }}
+    </h6>
+    <h6 ng-if="q.type === 'open'">{{ q.studentAnswer }}</h6>
+    <div class="form-check multiple-answers">
+      <label class="form-check-label" ng-repeat="answer in q.answers">
+        <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="true">
+          {{ answer }}
+      </label>
+    </div>
+    <div class="form-group mark" ng-if="q.evalComments">
+      {{ q.evalComments }}
+    </div>
+  </div>
+</div>

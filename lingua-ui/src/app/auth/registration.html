@@ -1,29 +1,31 @@
-<div class="row">
-  <div class="col-8 offset-2 col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
-    <form class="reg-form" ng-submit="reg.register()">
-      <h3 class="text-primary">NEW USER</h3>
-      <input type="text" class="form-control" ng-model="reg.user.name" placeholder="Your Name" required>
-      <input type="text" class="form-control" ng-model="reg.user.login" placeholder="Username" required>
-      <div class="text-danger">{{ reg.messages.username }}</div>
-      <input type="password" class="form-control" ng-model="reg.user.password" placeholder="Password" required>
-      <input type="password" class="form-control" ng-model="reg.confPassword" placeholder="Confirm Password" required>
-      <div class="text-danger">{{ reg.messages.pass }}</div>
-      <fieldset class="form-group radio">
-        <div class="form-check">
-          <label class="form-check-label">
-          <input type="radio" class="form-check-input" ng-model="reg.user.role" value="teacher">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8 offset-2 col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
+      <form class="reg-form" ng-submit="reg.register()">
+        <h3 class="text-primary">REGISTER NEW USER</h3>
+        <input type="text" class="form-control" ng-model="reg.user.name" placeholder="Your Name" required>
+        <input type="text" class="form-control" ng-model="reg.user.username" placeholder="Username" required>
+        <div class="text-danger">{{ reg.messages.username }}</div>
+        <input type="password" class="form-control" ng-model="reg.user.password" placeholder="Password" required>
+        <input type="password" class="form-control" ng-model="reg.confPassword" placeholder="Confirm Password" required>
+        <div class="text-danger">{{ reg.messages.pass }}</div>
+        <fieldset class="form-group radio">
+          <div class="form-check">
+            <label class="form-check-label">
+          <input type="radio" class="form-check-input" ng-model="reg.user.role" name="role" value="teacher">
           I am a Teacher
         </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-          <input type="radio" class="form-check-input" ng-model="reg.user.role" value="student" required>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+          <input type="radio" class="form-check-input" ng-model="reg.user.role" name="role" value="student" required>
           I am a Student
         </label>
-        </div>
-      </fieldset>
-      <button type="submit" class="btn btn-primary btn-block login-button">Register</button>
-      <div class="text-success">{{ reg.messages.registered }}</div>
-    </form>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-block login-button">Register</button>
+        <div class="text-success">{{ reg.messages.registered }}</div>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,26 +1,27 @@
 import { TaskService } from './TaskService'
 import { LessonService } from './LessonService'
+import { SecurityContext } from '../auth/SecurityContext'
 import moment from 'moment'
 
 
 
 export class CompleteLessonController {
-  static $inject = ['TaskService', 'LessonService', '$stateParams', '$state']
+  static $inject = ['TaskService', 'LessonService', 'SecurityContext', '$stateParams', '$state']
 
   task = {}
-  studentId = '1'
   lessonTasks = []
   allTasksCompleted = false
 
-  constructor(taskService, lessonService, $stateParams, $state) {
+  constructor(taskService, lessonService, securityContext, $stateParams, $state) {
     this.taskService = taskService
     this.lessonService = lessonService
+    this.securityContext = securityContext
     this.$stateParams = $stateParams
     this.$state = $state
 
     this.lessonService.list()
       .then(lessons => {
-        this.lessons = lessons.filter(lesson => lesson.studentId === this.studentId)
+        this.lessons = lessons.filter(lesson => lesson.studentId === this.securityContext.getUser().userId)
       })
 
     if(this.$stateParams.lessonId){
@@ -63,11 +64,14 @@ export class CompleteLessonController {
     }
   }
 
-  openLesson(lessonId){
+  openLesson(lessonId, unassigned = false){
     this.getTaskList(lessonId)
       .then(() => {
         this.task = {}
-        this.$state.go('completeLesson', {lessonId: lessonId, taskId: null})
+        if (unassigned){
+          this.new = 'new'
+        }
+        this.$state.go('.', {lessonId: lessonId, taskId: null, new: this.new})
       })
   }
 
@@ -75,13 +79,13 @@ export class CompleteLessonController {
     this.taskService.getById(taskId)
       .then(task => {
         this.task = task
-        this.$state.go('completeLesson', {taskId: taskId})
+        this.$state.go('.', {taskId: taskId})
       })
   }
 
   closeTask(){
     this.task = {}
-    this.$state.go('completeLesson', {taskId: null})
+    this.$state.go('.', {taskId: null})
   }
 
   saveTask(){
@@ -98,6 +102,16 @@ export class CompleteLessonController {
     this.lessonService.update(this.openedLesson.id, this.openedLesson)
       .then(() => this.$state.reload())
   }
+
+  saveEvaluation(){
+    this.task.evaluated = true
+    this.taskService.editTask(this.task.id, this.task)
+      .then(() => {
+        this.task = {}
+        this.$state.go('.', {taskId: null}, { reload: true })
+      })
+  }
+
 
 
 }

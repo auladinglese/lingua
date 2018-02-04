@@ -12,6 +12,7 @@ $secondary: #8E8C84;
   display: none !important;
 }
 
+
 .navbar {
   .form-inline button {
     margin-right: 5px;
@@ -40,8 +41,6 @@ $secondary: #8E8C84;
 }
 
 .login-form {
-  margin-top: 50px;
-
   button,
   input {
     margin-top: 15px;
@@ -50,7 +49,6 @@ $secondary: #8E8C84;
 }
 
 .reg-form{
-  margin-top: 50px;
   .form-control, fieldset {
       margin-top: 15px;
   }
@@ -68,3 +66,4 @@ $secondary: #8E8C84;
 @import './allTemplates.scss';
 @import './assignLesson.scss';
 @import './completeLesson.scss';
+@import './dashboard.scss';

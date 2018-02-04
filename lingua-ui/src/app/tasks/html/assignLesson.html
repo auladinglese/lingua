@@ -1,51 +1,58 @@
-<div class="container-fluid task-assignment">
+<div class="container-fluid task-assignment" ng-controller="CompleteLessonController as complete">
   <div class="row">
-    <div class="col-sm-10 col-md-8 offset-sm-1 offset-md-2">
-      <h3 class="text-primary">Lesson assignment</h3>
-      <div class="student-info">
-        <h4>Lesson for <strong>PETER PETERSON</strong></h4>
-        <button class="btn btn-primary saveBtn" ng-click="assign.createLesson()" ng-if="!assign.$stateParams.lessonId">Create new lesson</button>
-        <h5 class="text-primary" ng-if="assign.$stateParams.lessonId">TASKS</h5>
-        <p ng-if="assign.$stateParams.lessonId && !assign.lessonTasks[0]">No tasks in this lesson yet. Please use the form below to add tasks.</p>
 
-        <div class="assigned-task" ng-repeat="task in assign.lessonTasks">
-          {{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}
-          <div class="btn btn-danger del" ng-click="assign.deleteTask(task)" ng-cloak>&times;</div>
-        </div>
-        <button class="btn btn-primary btn-block saveBtn" ng-click="assign.assignLesson()" ng-if="assign.lessonTasks[0]">Assign lesson</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-10 col-sm-4 templates" ng-controller="TemplateListController as templates">
-      <h5 class="text-success">FILTER TEMPLATES BY:</h5>
-
-      <div ng-include="'app/tasks/html/filter.html'"></div>
-
-      <h6>SELECT A TEMPLATE TO USE:</h6>
-      <a ui-sref="assignLesson({ id: null })">(Remove template)</a>
-      <div class="task-list">
-        <div class="task-list-item" ng-repeat="template in templates.templates | filter: {studentId: '!'} | orderBy: ['level', 'category']">
-          <a ui-sref="assignLesson({ templateId: template.id })">&raquo; {{template.level}} / {{template.category}} / {{template.subject}} / {{template.name}}</a>
-        </div>
+    <div class="col-sm-2 offset-sm-1">
+      <div class="lessons">
+        <h5><strong>LESSONS</strong></h5>
+        <button class="btn btn-success btn-sm" ng-click="assign.createLesson()">Create lesson</button>
+        <h6>Unassigned:</h6>
+        <ul>
+          <li ng-repeat="lesson in assign.lessons | filter: {dateAssigned: '!'}"><a href="" ng-click="complete.openLesson(lesson.id, true)">New Lesson</a>
+          </li>
+        </ul>
+        <h6>Assigned:</h6>
+        <ul>
+          <li ng-repeat="lesson in assign.lessons | filter: {dateSubmitted: '!'} | orderBy: '-dateAssigned'"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+          </li>
+        </ul>
+        <h6 class="text-danger"><strong>To Evaluate:</strong></h6>
+        <ul>
+          <li ng-repeat="lesson in assign.lessons | filter: {dateSubmitted: ''} | filter: {dateEvaluated: '!'} | orderBy: '-dateAssigned'"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+          </li>
+        </ul>
+        <h6>Evaluated:</h6>
+        <ul>
+          <li ng-repeat="lesson in assign.lessons | filter: {dateEvaluated: ''} | orderBy: '-dateAssigned'"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="col-sm-7 task-form" ng-controller="TemplateController as ctrl">
-      <form ng-submit="assign.addTask(ctrl.template)" ng-cloak>
-        <fieldset>
-          <h5 class="text-primary">NEW TASK</h5>
 
-          <div ng-include="'app/tasks/html/formTemplate.html'"></div>
+    <div class="col-sm-9 col-md-8">
+      <h3>Tasks for <span class="text-primary">{{ assign.student.name }}</span></h3>
+      <h4 ng-if="!assign.$stateParams.new && assign.$stateParams.lessonId">Lesson assigned on {{ complete.openedLesson.dateAssigned | date:'MMM d, HH:mm'}} <a href="" class="delete-lesson" ng-click="assign.deleteLesson()">- DELETE THIS LESSON -</a></h4>
+      <h4 ng-if="assign.$stateParams.new">New lesson <a href="" class="delete-lesson" ng-click="assign.deleteLesson()">- DELETE THIS LESSON -</a></h4>
 
-          <label class="form-check-label save-as">
-              <input class="form-check-input" type="checkbox" ng-model="assign.saveAsTemplate" >
-              Save as a new template
-            </label>
-          <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Add task to lesson</button>
-        </fieldset>
-      </form>
+      <div class="assigned-task" ng-repeat="task in assign.lessonTasks | orderBy:['category', 'level']">
+        <button class="btn btn-primary btn-sm" ng-click="complete.openTask(task.id)" ng-hide="task.id == complete.task.id">Open</button>
+        <button class="btn btn-info btn-sm" ng-click="complete.closeTask()" ng-show="task.id === complete.task.id">Close</button>
+        <h6>{{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}</h6>
+        <span class="badge badge-pill badge-danger" ng-if="!task.evaluated && task.completed">To Do</span>
+        <span class="badge badge-pill badge-success" ng-if="task.evaluated && !assign.lesson.dateEvaluated">Evaluated</span>
+        <div class="btn btn-danger del" ng-click="assign.deleteTask(task)">&times;</div>
+      </div>
+
+      <button class="btn btn-outline-primary btn-sm add-task-btn" ng-click="assign.newTask()" ng-if="assign.$stateParams.new">Add Task</button>
+      <button class="btn btn-primary btn-block saveBtn" ng-click="assign.assignLesson()" ng-if="assign.lessonTasks[0] && assign.$stateParams.new">Assign lesson</button>
+      <button class="btn btn-primary btn-block saveBtn" ng-click="assign.submitEvaluation()" ng-if="assign.allTasksEvaluated && !assign.lesson.dateEvaluated">Submit evaluation</button>
+
+      <div ng-if="complete.task.questions">
+        <div ng-if="!assign.lesson.dateSubmitted || assign.lesson.dateEvaluated" ng-include="'app/tasks/html/taskDetails.html'"></div>
+        <div ng-if="assign.lesson.dateSubmitted && !assign.lesson.dateEvaluated" ng-include="'app/tasks/html/taskEvaluateForm.html'"></div>
+      </div>
+
     </div>
+
   </div>
 </div>

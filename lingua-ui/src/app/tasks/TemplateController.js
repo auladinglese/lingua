@@ -1,25 +1,29 @@
 import {TaskService} from './TaskService'
+import { SecurityContext } from '../auth/SecurityContext'
+
 
 export class TemplateController {
-  static $inject = [ 'TaskService', '$state', '$stateParams', '$scope', '$window']
+  static $inject = [ 'TaskService', 'SecurityContext', '$state', '$stateParams', '$scope', '$window']
 
-  template = {
-    teacherId: '1',
-    sourceType: 'url',
-    questions: [{
-        type: 'open',
-        answers:  ['', '']
-    }]
-  }
   levels = ['Beginner', 'Intermediate', 'Advanced']
   categories = ['Grammar', 'Listening', 'Reading', 'Writing']
   savedAlert = false
 
-  constructor(taskService, $state, $stateParams, $scope, $window) {
+  constructor(taskService, securityContext, $state, $stateParams, $scope, $window) {
     this.taskService = taskService
+    this.securityContext = securityContext
     this.$state = $state
     this.$stateParams = $stateParams
     this.$window = $window
+
+    this.template = {
+      teacherId: this.securityContext.getUser().userId,
+      sourceType: 'url',
+      questions: [{
+          type: 'open',
+          answers:  ['', '']
+      }]
+    }
 
     if (this.$stateParams.templateId) {
       this.taskService.getById(this.$stateParams.templateId)

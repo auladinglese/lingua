@@ -17,12 +17,11 @@ export class OAuthHooks {
       cb(null, false)
     } else {
       const role = user.claims.find(x => x.name === 'role')
-      const userId = user.claims.find(x => x.name === 'userId')
 
       const payload = {
-          login: user.login,
-          role: role ? role.value : undefined,
-          userId: userId ? userId.value : undefined
+          username: user.username,
+          userId: user.id,
+          role: role ? role.value : undefined
       }
       const token = jwt.sign(payload, signatureSecret)
       cb(null, token)

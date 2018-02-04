@@ -1,0 +1,19 @@
+<div class="container-fluid dashboard">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+      <h3 class="text-primary" ng-if="dash.securityContext.getUser().role === 'teacher' || dash.securityContext.getUser().role === 'admin'">TEACHER DASHBOARD</h3>
+      <h3 class="text-primary" ng-if="dash.securityContext.getUser().role === 'student'">STUDENT DASHBOARD</h3>
+
+      <div class="card border-dark mb-3" ng-if="dash.securityContext.getUser().role === 'teacher' || dash.securityContext.getUser().role === 'admin'">
+        <div class="card-header">My Students</div>
+        <div class="card-body text-dark">
+          <ul>
+            <li ng-repeat="student in dash.students"><a ui-sref="assignLesson({ studentId: student.id })">{{ student.name }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

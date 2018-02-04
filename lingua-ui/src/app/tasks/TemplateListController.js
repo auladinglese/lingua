@@ -1,7 +1,8 @@
 import { TaskService } from './TaskService'
+import { SecurityContext } from '../auth/SecurityContext'
 
 export class TemplateListController {
-  static $inject = ['TaskService', '$scope', '$state', '$timeout', '$location']
+  static $inject = ['TaskService', 'SecurityContext', '$scope', '$state', '$timeout', '$location']
 
   loading = true
   templates = []
@@ -10,8 +11,9 @@ export class TemplateListController {
   categories = ['Grammar', 'Listening', 'Reading', 'Writing']
   initializing = true
 
-  constructor(taskService, $scope, $state, $timeout, $location) {
+  constructor(taskService, securityContext, $scope, $state, $timeout, $location) {
     this.taskService = taskService
+    this.securityContext = securityContext
     this.$state = $state
     this.$location = $location
     this.reloadFilter()
@@ -22,12 +24,13 @@ export class TemplateListController {
         this.filterTemplates()
       }
     }, true)
+
   }
 
   loadTemplates(filter = ''){
     this.taskService.list(filter)
       .then(templates => {
-        this.templates = templates
+        this.templates = templates.filter(template => template.teacherId === this.securityContext.getUser().userId && !template.studentId)
         this.loading = false
       }).catch(() => this.loading = false)
   }
@@ -66,11 +69,13 @@ export class TemplateListController {
       filter = filter + '&name=' + this.filter.name
     }
 
-    if (this.$location.path() === '/templates') {
-      this.$state.go('templates', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-    } else {
-      this.$state.go('assignLesson', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-    }
+    this.$state.go('.', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
+
+    // if (this.$location.path() === '/templates') {
+    //   this.$state.go('templates', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
+    // } else {
+    //   this.$state.go('assignLesson', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
+    // }
 
     this.loadTemplates(filter)
   }

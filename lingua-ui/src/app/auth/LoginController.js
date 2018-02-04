@@ -19,7 +19,7 @@ export class LoginController {
           this.message = 'Invalid username or password'
         } else {
           this.securityContext.setToken(resp.access_token)
-          this.$state.go('home')
+          this.$state.go('dashboard')
         }
       })
       // .catch(() => {

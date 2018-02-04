@@ -1,10 +1,13 @@
-<div class="row">
+<div class="container-fluid">
+  <div class="row">
     <div class="col-8 offset-2 col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
-        <form class="login-form" ng-submit="login.login()">
-            <input type="text" class="form-control" ng-model="login.username" placeholder="Your Username">
-            <input type="password" class="form-control" ng-model="login.password" placeholder="Your Password">
-            <div class="text-danger">{{login.message}}</div>
-            <button type="submit" class="btn btn-primary btn-block login-button">Login</button>
-        </form>
+      <form class="login-form" ng-submit="login.login()">
+        <h3 class="text-primary">LOGIN DETAILS</h3>
+        <input type="text" class="form-control" ng-model="login.username" placeholder="Your Username">
+        <input type="password" class="form-control" ng-model="login.password" placeholder="Your Password">
+        <div class="text-danger">{{login.message}}</div>
+        <button type="submit" class="btn btn-primary btn-block login-button">Login</button>
+      </form>
     </div>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" ng-controller="LoginController as login">
-  <a class="navbar-brand" ui-sref="home">LINGUA <img src="img/logowhite.png" alt=""></a>
+  <a class="navbar-brand" ui-sref="about">LINGUA <img src="img/logowhite.png" alt=""></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" ui-sref="home">About</a>
+        <a class="nav-link" ui-sref="about">About</a>
       </li>
       <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
         <a class="nav-link" ui-sref="newTemplate">New Template</a>
@@ -16,17 +16,17 @@
         <a class="nav-link" ui-sref="templates">All Templates</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref="assignLesson" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">Assignment</a>
+        <a class="nav-link" ui-sref="assignLesson({ studentId: 'd24e7dc1-ca73-4bbd-ac70-a95438fe1a82'})" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">Assignment</a>
       </li>
       <li class="nav-item" ng-if="login.securityContext.getUser().role === 'student' || login.securityContext.getUser().role === 'admin'">
         <a class="nav-link" ui-sref="completeLesson">Complete lesson</a>
       </li>
-      <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
+      <!-- <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
         <a class="nav-link" ui-sref="evaluateLesson">Evaluate</a>
-      </li>
+      </li> -->
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <!-- <a class="nav-item nav-link" ui-sref="home">Dashboard</a> -->
+      <a class="nav-item nav-link" ng-if="login.securityContext.getToken()" ui-sref="dashboard">Dashboard</a>
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="login" ng-if="!login.securityContext.getToken()">login</button>
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="registration" ng-if="!login.securityContext.getToken()">register</button>
       <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getToken()" ng-click="login.logout()">logout</button>

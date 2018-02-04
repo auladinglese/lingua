@@ -1,4 +1,4 @@
-<div class="container-fluid complete-task">
+<!-- <div class="container-fluid complete-task">
   <div class="row">
     <div class="col-sm-2 offset-sm-1">
       <div class="lessons">
@@ -13,9 +13,6 @@
     <div class="col-sm-7">
       <h3 class="text-primary" ng-if="evaluate.openedLesson">LESSON - {{ evaluate.openedLesson.dateAssigned | date:'MMM d, HH:mm'}}</h3>
       <button class="btn btn-danger btn-lg submitBtn" ng-click="evaluate.sendEvaluation()" ng-if="evaluate.allTasksEvaluated && !evaluate.openedLesson.dateEvaluated">Send evaluation to student</button>
-      <!-- <div class="badge badge-pill badge-info submited-note" ng-if="evaluate.openedLesson.dateEvaluated">Evaluation sent to student at {{ evaluate.openedLesson.dateEvaluated | date:'HH:mm' }} on {{ evaluate.openedLesson.dateEvaluated | date:'MMM d, yyyy' }}.</div>
-      <p class="subnote" ng-if="evaluate.openedLesson.dateEvaluated"><small>*Any further changes to the evaluation will be immediately visible to the student.</small></p> -->
-
 
 
       <div class="assigned-task" ng-repeat="task in evaluate.lessonTasks | orderBy:['category', 'level']">
@@ -27,55 +24,10 @@
       </div>
 
       <div ng-if="evaluate.task.questions">
-        <div class="task-details">
-          <p ng-if="!evaluate.allTasksEvaluated"><small>* Do not forget to SAVE before closing the task.</small></p>
-          <h5 class="text-primary">{{ evaluate.task.level }} / {{ evaluate.task.category }} / {{ evaluate.task.subject }}</h5>
-          <h4 class="text-primary">{{ evaluate.task.name }}</h4>
-          <p ng-if="evaluate.task.instructions">{{ evaluate.task.instructions }}</p>
-          <p ng-if="evaluate.task.sourceType === 'text'">{{ evaluate.task.source }}</p>
-          <p><a class="text-info source-link" ng-if="evaluate.task.sourceType === 'url'" href="{{evaluate.task.source}}" target=”_blank”>{{ evaluate.task.source }}</a></p>
 
-          <form ng-submit="evaluate.saveEvaluation()">
-            <div class="form-group" ng-repeat="q in evaluate.task.questions track by $index" ng-init="$indexQ = $index">
-              <h6 class="text-info">{{ q.question }}</h6>
-              <h6 ng-if="q.type === 'open'">{{ q.studentAnswer }}</h6>
-              <div class="form-check multiple-answers">
-                <label class="form-check-label" ng-repeat="answer in q.answers">
-                <input class="form-check-input" type="checkbox" ng-model="evaluate.task.questions[$indexQ].studentAnswer[answer]" ng-disabled="evaluate.openedLesson.dateSubmitted">
-                  {{ answer }}
-              </label>
-              </div>
+        <div ng-include="'app/tasks/html/taskEvaluateForm.html'"></div>
 
-              <div class="form-group mark">
-                <!-- <label class="text-warning"></label> -->
-                <fieldset class="form-group radio">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                    <input type="radio" class="form-check-input" ng-model="evaluate.task.questions[$indexQ].evaluation" value="correct" >
-                    Correct
-                  </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                    <input type="radio" class="form-check-input" ng-model="evaluate.task.questions[$indexQ].evaluation" value="partCorrect">
-                    Partially correct
-                  </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                    <input type="radio" class="form-check-input" ng-model="evaluate.task.questions[$indexQ].evaluation" value="incorrect">
-                    Incorrect
-                  </label>
-                  </div>
-                </fieldset>
-                <textarea class="form-control" ng-model="evaluate.task.questions[$indexQ].evalComments" rows="3" placeholder="Optional comments"></textarea>
-              </div>
-
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Save changes</button>
-          </form>
-        </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
