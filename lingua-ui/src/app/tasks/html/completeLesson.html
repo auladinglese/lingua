@@ -5,7 +5,7 @@
         <h5><strong>MY LESSONS</strong></h5>
         <h6>Assigned:</h6>
         <ul>
-          <li ng-repeat="lesson in complete.lessons | filter: {dateSubmitted: '!'} | orderBy: '-dateAssigned'"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+          <li ng-repeat="lesson in complete.lessons | filter: {dateSubmitted: '!'} | filter: {dateAssigned: ''} | orderBy: '-dateAssigned'"><a href="" ng-click="complete.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
           </li>
         </ul>
         <h6>Completed:</h6>

@@ -42,7 +42,7 @@ export function register(server, storage) {
   })
 
   server.get('/lessons', mustAuthenticate(), function(req, resp, next) {
-    storage.list()
+    storage.list(req.query)
       .then(function(lessons) {
         resp.send(lessons)
         next()

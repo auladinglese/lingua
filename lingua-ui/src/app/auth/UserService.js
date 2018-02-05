@@ -7,7 +7,7 @@ export class UserService {
     this.$http = $http
   }
 
-  list(filter = null){
+  list(filter = '?'){
     return this.$http({
       method: 'GET',
       url: `${apiEndpoint}users` + filter

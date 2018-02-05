@@ -19,6 +19,7 @@ export class OAuthHooks {
       const role = user.claims.find(x => x.name === 'role')
 
       const payload = {
+          name: user.name,
           username: user.username,
           userId: user.id,
           role: role ? role.value : undefined

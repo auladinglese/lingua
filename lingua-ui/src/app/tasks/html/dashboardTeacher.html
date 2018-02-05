@@ -1,0 +1,92 @@
+<div class="card border-primary mb-3">
+  <div class="card-header">Awaiting Evaluation</div>
+  <div class="card-body text-dark">
+    <ul>
+      <li ng-repeat="student in dash.evalStudents | orderBy: 'name'"><a ui-sref="assignLesson({ studentId: student.id })">{{ student.name }}</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="card border-primary mb-3">
+  <div class="card-header">Awaiting Assignment</div>
+  <div class="card-body text-dark">
+    <ul>
+      <li ng-repeat="student in dash.assignStudents | orderBy: 'name'"><a ui-sref="assignLesson({ studentId: student.id })">{{ student.name }}</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="card border-primary mb-3" ng-if="dash.newStudents.length > 0">
+  <div class="card-header">New Student Requests</div>
+  <div class="card-body text-dark">
+    <ul>
+      <li ng-repeat="student in dash.newStudents | orderBy: 'name'">
+        {{ student.name }} -
+        <a href="" class="accept" ng-click="dash.acceptRequest(student.id)">Accept</a>
+        <a href="" class="decline" ng-click="dash.declineRequest(student.id)">Decline</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card border-primary mb-3 appointments">
+  <div class="card-header">My Appointments</div>
+  <div class="card-body text-dark">
+    <h6 class="text-success">Confirmed Appointments</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.teacherApts | filter: { status: 'accepted' } | orderBy: 'date' | orderBy: 'time'">
+        <a ui-sref="assignLesson({ studentId: appointment.studentId })">{{ appointment.studentName }}</a>
+         - <strong>{{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }}</strong> - {{ appointment.duration }} - 
+         <a href="" class="decline" ng-click="dash.cancelAppointment(appointment)">Cancel</a>
+        <p class="text-secondary">{{ appointment.message }}</p>
+      </li>
+    </ul>
+    <h6 class="text-warning">Cancelled Appointments</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.teacherApts | filter: { status: 'cancelled' } | orderBy: 'date' | orderBy: 'time'">
+        <a ui-sref="assignLesson({ studentId: appointment.studentId })">{{ appointment.studentName }}</a>
+         - <strong>{{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }}</strong> - {{ appointment.duration }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card border-primary mb-3 requests">
+  <div class="card-header">Appointment Requests</div>
+  <div class="card-body text-dark">
+    <ul>
+      <li ng-repeat="appointment in dash.teacherApts | filter: { status: '!' } | orderBy: 'date' | orderBy: 'time'">
+        <a ui-sref="assignLesson({ studentId: appointment.studentId })">{{ appointment.studentName }}</a>
+         - <strong>{{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }}</strong> - {{ appointment.duration }}</p>
+        <p>{{ appointment.message }}</p>
+        <textarea class="text-secondary"rea class="form-control" ng-model="appointment.reply" rows="1" placeholder="Optional Reply"></textarea>
+        <a href="" class="accept" ng-click="dash.acceptAppointment(appointment)">Accept</a>
+        <a href="" class="decline" ng-click="dash.declineAppointment(appointment)">Decline</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card border-primary mb-3 availability">
+  <div class="card-header">My Availability</div>
+  <div class="card-body text-dark">
+    <label class="text-primary" for="availability">Regular Availability</label>
+    <textarea id="availability" class="form-control" ng-model="dash.profile.regularAvailability" rows="3" placeholder="e.g. Mondays to Fridays, 10:00-14:00"></textarea>
+    <label class="text-primary" for="otherAvail">Other Availability</label>
+    <textarea id="otherAvail" class="form-control" ng-model="dash.profile.otherAvailability" rows="3" placeholder="e.g. Unavailable on the 1st of March"></textarea>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="dash.updateAvailability()">Update Availability</button>
+    <div class="text-success" ng-if="dash.updatedMessage">Updated successfully.</div>
+  </div>
+</div>
+
+<div class="card border-primary mb-3">
+  <div class="card-header">My Students</div>
+  <div class="card-body text-dark">
+    <ul>
+      <li ng-repeat="student in dash.myStudents | orderBy: 'name'">
+        <a href="" class="delete" data-toggle="tooltip" data-placement="bottom" title="Remove Student" ng-click="dash.declineRequest(student.id)">&times;</a>
+        <a ui-sref="assignLesson({ studentId: student.id })">{{ student.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>

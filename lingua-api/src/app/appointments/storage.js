@@ -11,25 +11,25 @@ function toModel(mongoObject) {
 }
 
 
-export class MongoLessonStorage {
+export class MongoAppointmentStorage {
   constructor(mongoClient) {
-    this.lessonCollection = mongoClient.db('lingua')
-      .collection('lessons')
+    this.appointmentCollection = mongoClient.db('lingua')
+      .collection('appointments')
   }
 
-  saveNew(lesson) {
-    lesson._id = uuid()
-    return this.lessonCollection.save(lesson)
-      .then(() => toModel(lesson))
+  saveNew(appointment) {
+    appointment._id = uuid()
+    return this.appointmentCollection.save(appointment)
+      .then(() => toModel(appointment))
   }
 
-  update(id, lesson) {
-    return this.lessonCollection
-      .update({ _id: id }, { "$set": lesson })
+  update(id, appointment) {
+    return this.appointmentCollection
+      .update({ _id: id }, { "$set": appointment })
   }
 
   getById(id) {
-    return this.lessonCollection
+    return this.appointmentCollection
       .findOne({ _id: id })
       .then(toModel)
   }
@@ -44,15 +44,15 @@ export class MongoLessonStorage {
     if(filter.teacherId){
       mongoQuery.teacherId = filter.teacherId
     }
-
-    return this.lessonCollection
+    
+    return this.appointmentCollection
       .find(mongoQuery)
       .map(toModel)
       .toArray()
   }
 
   delete(id) {
-    return this.lessonCollection
+    return this.appointmentCollection
       .deleteOne({ _id: id })
   }
 }

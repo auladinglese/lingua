@@ -1,0 +1,78 @@
+<div class="card border-primary mb-3">
+  <div class="card-header">My Lessons</div>
+  <div class="card-body text-dark">
+    <h6>Assigned: <strong class="text-danger">{{ dash.countAssigned? dash.countAssigned : 'none' }}</strong></h6>
+    <h6>Awaiting evaluation: {{ dash.countAwaiting? dash.countAwaiting : 'none' }}</h6>
+    <h6>Evaluated: {{ dash.countEvaluated? dash.countEvaluated : 'none' }}</h6>
+    <a ui-sref="completeLesson"><strong>Go to My Lessons</strong></a>
+  </div>
+</div>
+
+<div class="card border-primary mb-3">
+  <div class="card-header">My Appointments</div>
+  <div class="card-body text-dark">
+    <h6 class="text-success">Confirmed Appointments</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.studentApts | filter: { status: 'accepted' } | orderBy: 'date' | orderBy: 'time'">
+        {{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }} - {{ appointment.duration }} -
+        <a href="" class="decline" ng-click="dash.declineRequest(student.id)">Cancel</a>
+      </li>
+    </ul>
+    <h6 class="text-warning">Cancelled Appointments</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.studentApts | filter: { status: 'cancelled' } | orderBy: 'date' | orderBy: 'time'">
+        {{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }} - {{ appointment.duration }}
+      </li>
+    </ul>
+    <h6 class="text-primary">Declined Appointments</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.studentApts | filter: { status: 'declined' } | orderBy: 'date' | orderBy: 'time'">
+        <p>{{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }} - {{ appointment.duration }}</p>
+        <p class="text-secondary">{{ appointment.reply }}</p>
+      </li>
+    </ul>
+    <h6 class="text-primary">Requests Awaiting Confirmation</h6>
+    <ul>
+      <li ng-repeat="appointment in dash.studentApts | filter: { status: '!' } | orderBy: 'date' | orderBy: 'time'">
+        {{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }} - {{ appointment.duration }} -
+        <a href="" class="decline" ng-click="dash.cancelAppointment(appointment)">Cancel</a>
+        <p class="text-secondary">{{ appointment.message }}</p>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="card border-primary mb-3" ng-if="dash.profile.currentTeacherId">
+  <div class="card-header">Request Appointment</div>
+  <div class="card-body text-dark">
+    <h6 class="text-primary" ng-if="dash.teacherProfile.regularAvailability || dash.teacherProfile.otherAvailability">My Teacher's Availability</h6>
+    <pre>{{ dash.teacherProfile.regularAvailability }}</pre>
+    <pre>{{ dash.teacherProfile.otherAvailability }}</pre>
+    <label for="datepicker">Date</label>
+    <input id="datepicker" type="text" ng-model="dash.aptDate" ds-pikaday>
+    <label for="time" ng-model="dash.appointment.time">Time</label>
+    <select id="time" class="form-control" ng-model="dash.appointment.time" ng-options="time for time in dash.times">
+      <option disabled selected value> -- Time -- </option>
+    </select> <label for="duration">Duration</label>
+    <select id="duration" class="form-control" ng-model="dash.appointment.duration" ng-options="duration for duration in dash.durations">
+      <option disabled selected value> -- Duration -- </option>
+    </select>
+    <textarea class="form-control" ng-model="dash.appointment.message" rows="3" placeholder="Optional Message"></textarea>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="dash.requestAppointment()">Send Request</button>
+  </div>
+</div>
+
+<div class="card border-primary mb-3">
+  <div class="card-header">My Teacher</div>
+  <div class="card-body text-dark">
+    <h6 class="text-warning" ng-if="dash.profile.currentTeacherId && !dash.profile.teacherConfirmed">* Awaiting teacher's confirmation *</h6>
+    <h4 class="card-title">{{ dash.teacher.name}}</h4>
+    <label class="text-primary" for="teacher" ng-if="!dash.profile.currentTeacherId">Choose Your Teacher</label>
+    <label class="text-primary" for="teacher" ng-if="dash.profile.currentTeacherId">Change Your Teacher</label>
+    <select id="teacher" class="form-control" ng-model="dash.newTeacher" ng-options="teacher.name for teacher in dash.teachers">
+      <option disabled selected value> -- Teachers -- </option>
+    </select>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="dash.changeTeacher()">Send Request</button>
+  </div>
+</div>

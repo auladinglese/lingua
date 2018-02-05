@@ -8,8 +8,12 @@ import { EvaluateLessonController } from './tasks/EvaluateLessonController'
 import { DashboardController } from './tasks/DashboardController'
 import { TaskService } from './tasks/TaskService'
 import { LessonService } from './tasks/LessonService'
+import { ProfileService } from './tasks/ProfileService'
+import { AppointmentService } from './tasks/AppointmentService'
+import { datepicker } from './tasks/PikadayDirective'
 import './auth/AuthModule'
 import '@uirouter/angularjs'
+
 
 angular.module('app', ['ui.router', 'auth'])
   .controller('TemplateController', TemplateController)
@@ -20,6 +24,9 @@ angular.module('app', ['ui.router', 'auth'])
   .controller('DashboardController', DashboardController)
   .service('TaskService', TaskService)
   .service('LessonService', LessonService)
+  .service('ProfileService', ProfileService)
+  .service('AppointmentService', AppointmentService)
+  .directive('dsPikaday', datepicker)
   .config(['$stateProvider', '$urlRouterProvider', /*'$locationProvider',*/ ($stateProvider, $urlRouterProvider /*, $locationProvider*/) => {
 
     $stateProvider.state({

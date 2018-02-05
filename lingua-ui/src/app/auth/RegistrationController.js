@@ -1,14 +1,16 @@
 import { OauthService } from './OauthService'
 import { UserService } from './UserService'
+import { ProfileService } from '../tasks/ProfileService'
 import { SecurityContext } from './SecurityContext'
 
 export class RegistrationController {
-  static $inject = ['OauthService', 'UserService', 'SecurityContext', '$state', '$scope']
+  static $inject = ['OauthService', 'UserService', 'ProfileService', 'SecurityContext', '$state', '$scope']
 
 
-  constructor(oauthService, userService, securityContext, $state, $scope) {
+  constructor(oauthService, userService, profileService, securityContext, $state, $scope) {
     this.oauthService = oauthService
     this.userService = userService
+    this.profileService = profileService
     this.securityContext = securityContext
     this.$state = $state
     this.$scope = $scope
@@ -45,6 +47,7 @@ export class RegistrationController {
       await this.userService.createNew(this.user)
       const resp = await this.oauthService.getToken('lingua', 'secret', this.user.username, this.user.password)
       this.securityContext.setToken(resp.access_token)
+      await this.profileService.createNew({userId: this.securityContext.getUser().userId})
       this.$state.go('dashboard')
     } else {
       this.$scope.$apply()

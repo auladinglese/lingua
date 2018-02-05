@@ -16,17 +16,17 @@
         <a class="nav-link" ui-sref="templates">All Templates</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref="assignLesson({ studentId: 'd24e7dc1-ca73-4bbd-ac70-a95438fe1a82'})" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">Assignment</a>
+        <a class="nav-link" ui-sref="assignLesson({ studentId: 'f85f363f-469d-44d5-bf85-3d3295b3c1b3'})" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">Assignment</a>
       </li>
       <li class="nav-item" ng-if="login.securityContext.getUser().role === 'student' || login.securityContext.getUser().role === 'admin'">
-        <a class="nav-link" ui-sref="completeLesson">Complete lesson</a>
+        <a class="nav-link" ui-sref="completeLesson">My Lessons</a>
       </li>
       <!-- <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
         <a class="nav-link" ui-sref="evaluateLesson">Evaluate</a>
       </li> -->
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <a class="nav-item nav-link" ng-if="login.securityContext.getToken()" ui-sref="dashboard">Dashboard</a>
+      <a class="nav-item nav-link" ng-if="login.securityContext.getToken()" ui-sref="dashboard">My Dashboard</a>
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="login" ng-if="!login.securityContext.getToken()">login</button>
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="registration" ng-if="!login.securityContext.getToken()">register</button>
       <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getToken()" ng-click="login.logout()">logout</button>

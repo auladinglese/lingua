@@ -1,6 +1,6 @@
 const apiEndpoint = 'http://localhost:8888/'
 
-export class LessonService {
+export class ProfileService {
   static $inject = ['$http']
 
   constructor($http){
@@ -10,37 +10,37 @@ export class LessonService {
   list(filter = '?'){
     return this.$http({
       method: 'GET',
-      url: `${apiEndpoint}lessons` + filter
+      url: `${apiEndpoint}profiles` + filter
     }).then(response => response.data)
   }
 
   getById(id){
     return this.$http({
       method: 'GET',
-      url: `${apiEndpoint}lesson/` + id
+      url: `${apiEndpoint}profile/` + id
     }).then(response => response.data)
   }
 
-  createNew(lesson){
+  createNew(profile){
     return this.$http({
       method: 'POST',
-      url: `${apiEndpoint}lesson`,
-      data: lesson
+      url: `${apiEndpoint}profile`,
+      data: profile
     }).then(response => response.data)
   }
 
-  update(id, lesson){
+  update(id, profile){
     return this.$http({
       method: 'POST',
-      url: `${apiEndpoint}lesson/` + id,
-      data: lesson
+      url: `${apiEndpoint}profile/` + id,
+      data: profile
     })
   }
 
   delete(id){
     return this.$http({
       method: 'DELETE',
-      url: `${apiEndpoint}lesson/` + id
+      url: `${apiEndpoint}profile/` + id
     })
   }
 
