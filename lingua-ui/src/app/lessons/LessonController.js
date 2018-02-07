@@ -95,6 +95,7 @@ export class LessonController {
   }
 
   createLesson(){
+    this.clearView()
     this.lesson = {
       teacherId: this.securityContext.getUser().userId,
       studentId: this.$stateParams.studentId,
@@ -113,7 +114,7 @@ export class LessonController {
     this.taskService.createNew(task)
       .then((task) => {
         this.lesson.tasks.push(task.id)
-        this.lessonService.update(this.$stateParams.lessonId, this.lesson)
+        this.lessonService.update(this.$state.params.lessonId, this.lesson)
           .then(() => {
             if (this.saveAsTemplate){
               task.studentId = null

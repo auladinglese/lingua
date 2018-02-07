@@ -72,7 +72,7 @@ export class DashboardController {
   checkUnassignedLessons(student){
     this.lessonService.list('?studentId=' + student.id)
       .then(lessons => {
-        const countAssigned = lessons.filter(lesson => lesson.dateAssigned && !lesson.dateSubmitted).length
+        const countAssigned = lessons.filter(lesson => !lesson || lesson.dateAssigned && !lesson.dateSubmitted).length
         const nameOnList = this.assignStudents.find(s => s.username == student.username)
         if (countAssigned == 0 && !nameOnList) {
           this.assignStudents.push(student)
