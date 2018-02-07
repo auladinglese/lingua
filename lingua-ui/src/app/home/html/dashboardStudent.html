@@ -36,6 +36,7 @@
       <ul>
         <li ng-repeat="appointment in dashStu.appointments | filter: { status: '!' } | orderBy: ['date', 'time']">
           {{ appointment.date | date:'EEE, d MMM' }}, {{ appointment.time }} - {{ appointment.duration }} -
+          <a href="" class="text-warning" ng-click="dashStu.amendRequest(appointment)">Amend</a>
           <a href="" class="decline" ng-click="dash.cancelAppointment(appointment)">Cancel</a>
           <p class="text-secondary">{{ appointment.message }}</p>
         </li>
@@ -51,7 +52,7 @@
       <pre ng-if="dashStu.teacherProfile.regularAvailability">{{ dashStu.teacherProfile.regularAvailability }}</pre>
       <pre ng-if="dashStu.teacherProfile.otherAvailability">{{ dashStu.teacherProfile.otherAvailability }}</pre>
       <label for="datepicker">Date</label>
-      <input id="datepicker" type="text" ng-model="dashStu.apptDate" ds-pikaday>
+      <input id="datepicker" type="text" ng-model="dashStu.apptDate" ds-pikaday placeholder="e.g. 1 Jan 2018">
       <label for="time" ng-model="dashStu.appointment.time">Time</label>
       <select id="time" class="form-control" ng-model="dashStu.appointment.time" ng-options="time for time in dashStu.times">
         <option disabled selected value> -- Time -- </option>
@@ -60,8 +61,10 @@
         <option disabled selected value> -- Duration -- </option>
       </select>
       <textarea class="form-control" ng-model="dashStu.appointment.message" rows="3" placeholder="Optional Message"></textarea>
-      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.requestAppointment()">Send Request</button>
+      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.requestAppointment()" ng-if="!dashStu.appointment.id">Send Request</button>
+      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.requestAppointment()" ng-if="dashStu.appointment.id">Update Request</button>
       <div class="text-success" ng-if="dashStu.requestSentMessage">Request Sent.</div>
+      <div class="text-danger" ng-if="dashStu.dateInvalidMessage">Please check the date.</div>
     </div>
   </div>
 
