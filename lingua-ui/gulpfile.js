@@ -6,6 +6,7 @@ const babelify = require('babelify')
 const watchify = require('watchify')
 const sass = require('gulp-sass')
 const chalk = require('chalk')
+const browserifyShim = require('browserify-shim')
 const { spawn } = require('child_process')
 
 gulp.task('html', [], function() {
@@ -26,8 +27,11 @@ gulp.task('img', [], function() {
     .pipe(gulp.dest('dist'))
 })
 
-gulp.task('img:watch', ['img'], function() {
-  return gulp.watch(['src/img/*.*'], ['img'])
+gulp.task('css', [], function() {
+  return gulp.src('src/styles/*.css', {
+      base: 'src'
+    })
+    .pipe(gulp.dest('dist'))
 })
 
 function createBundler() {
@@ -76,8 +80,8 @@ gulp.task('sass:watch', ['sass'], function() {
   gulp.watch('./src/styles/**/*.scss', ['sass']);
 });
 
-gulp.task('build', ['html', 'img', 'js', 'sass'])
-gulp.task('watch', ['html:watch', 'img:watch', 'js:watch', 'sass:watch', 'server'])
+gulp.task('start', ['html', 'css', 'img', 'js', 'sass', 'server'])
+gulp.task('watch', ['html:watch', 'js:watch', 'sass:watch', 'server'])
 
 let server
 gulp.task('server', [], function() {

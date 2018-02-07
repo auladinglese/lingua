@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import { validate } from '../validation'
+import { mustAuthenticate } from '../auth'
 
 const userSchema = Joi.object().keys({
     name: Joi.string().required(),
@@ -24,7 +25,7 @@ export function register(server, storage) {
       })
   })
 
-  server.post('/user/:id', validate(userSchema), function(req, resp, next) {
+  server.post('/user/:id', mustAuthenticate(), validate(userSchema), function(req, resp, next) {
     storage.update(req.params.id, req.body)
       .then(function() {
         return storage.getById(req.params.id)
@@ -50,7 +51,7 @@ export function register(server, storage) {
       })
   })
 
-  server.get('/user/:id', function(req, resp, next) {
+  server.get('/user/:id', mustAuthenticate(), function(req, resp, next) {
     storage.getById(req.params.id)
       .then(function(user) {
         if (!user) {
@@ -65,7 +66,7 @@ export function register(server, storage) {
       })
   })
 
-  server.del('/user/:id', function(req, resp, next) {
+  server.del('/user/:id', mustAuthenticate(), function(req, resp, next) {
     storage.delete(req.params.id)
       .then(() => {
         resp.status(204)

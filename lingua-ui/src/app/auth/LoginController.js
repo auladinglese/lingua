@@ -22,9 +22,6 @@ export class LoginController {
           this.$state.go('dashboard')
         }
       })
-      // .catch(() => {
-        // this.message = 'Invalid username or password'
-      // })
   }
 
   logout(){

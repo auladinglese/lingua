@@ -1,0 +1,47 @@
+<div class="lesson-list">
+  <h3 ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">Lessons for <span class="text-primary">{{ lessonCtrl.student.name }}</span></h3>
+  <h3 class="text-primary" ng-if="lessonCtrl.securityContext.getUser().role === 'student'">My lessons</h3>
+
+  <button class="btn btn-success btn-sm new-lesson" ng-click="lessonCtrl.createLesson()" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">Create lesson</button>
+
+  <div class="card border-primary mb-3" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
+    <div class="card-header">Unassigned</div>
+    <div class="card-body text-dark">
+      <ul>
+        <li ng-repeat="lesson in lessonCtrl.lessons | filter: {dateAssigned: '!'}"><a href="" ng-click="lessonCtrl.openLesson(lesson.id, true)">New Lesson</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3">
+    <div class="card-header">Assigned</div>
+    <div class="card-body text-dark">
+      <ul>
+        <li ng-repeat="lesson in lessonCtrl.lessons | filter: {dateSubmitted: '!'} | filter: {dateAssigned: ''} | orderBy: '-dateAssigned'"><a href="" ng-click="lessonCtrl.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3">
+    <div class="card-header" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'"><span>To Evaluate</span></div>
+    <div class="card-header" ng-if="lessonCtrl.securityContext.getUser().role === 'student'">Completed</div>
+    <div class="card-body text-dark">
+      <ul>
+        <li ng-repeat="lesson in lessonCtrl.lessons | filter: {dateSubmitted: ''} | filter: {dateEvaluated: '!'} | orderBy: '-dateAssigned'"><a href="" ng-click="lessonCtrl.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3">
+    <div class="card-header">Evaluated</div>
+    <div class="card-body text-dark">
+      <ul>
+        <li ng-repeat="lesson in lessonCtrl.lessons | filter: {dateEvaluated: ''} | orderBy: '-dateAssigned'"><a href="" ng-click="lessonCtrl.openLesson(lesson.id)">{{ lesson.dateAssigned | date:'MMM d, yyyy - HH:mm' }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,10 @@
 .task-assignment {
+  h3 {
+    margin-top: 0px;
+  }
+  .task-list {
+    margin-top: 20px;
+  }
   .task-details {
     margin-top: 30px;
     border: 1px solid $primary;
@@ -44,8 +50,23 @@
     text-transform: uppercase;
   }
 
-  .lessons {
-    margin-top: 40px;
+  .lesson-list {
+    button {
+      display: block;
+    }
+
+    .card {
+      width: 175px;
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 25px;
+      height: 170px;
+      overflow-x: hidden;
+    }
+
+    span {
+      color: $danger;
+    }
 
     ul {
       list-style: none;
@@ -137,7 +158,7 @@
 
     .badge {
       position: absolute;
-      right: 65px;
+      right: 30px;
     }
   }
 

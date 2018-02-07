@@ -16,6 +16,7 @@
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
     "browserify": "^15.0.0",
+    "browserify-shim": "^3.8.14",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "http-server": "^0.10.0",
@@ -25,10 +26,29 @@
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.12",
-    "angular": "^1.6.8",
+    "angular": "^1.6.9",
     "moment": "^2.20.1",
     "pikaday": "^1.7.0",
     "spinthatshit": "^1.0.4"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "angular": {
+      "exports": "global:angular"
+    },
+    "@uirouter/angularjs": {
+      "depends": [
+        "angular"
+      ],
+      "exports": "global:ngrouter"
+    },
+    "moment": {
+      "exports": "global:moment"
+    }
   },
   "babel": {
     "presets": [

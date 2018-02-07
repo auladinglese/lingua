@@ -2,7 +2,7 @@ import { TaskService } from './TaskService'
 import { SecurityContext } from '../auth/SecurityContext'
 
 export class TemplateListController {
-  static $inject = ['TaskService', 'SecurityContext', '$scope', '$state', '$timeout', '$location']
+  static $inject = ['TaskService', 'SecurityContext', '$scope', '$state', '$timeout']
 
   loading = true
   templates = []
@@ -11,11 +11,10 @@ export class TemplateListController {
   categories = ['Grammar', 'Listening', 'Reading', 'Writing']
   initializing = true
 
-  constructor(taskService, securityContext, $scope, $state, $timeout, $location) {
+  constructor(taskService, securityContext, $scope, $state, $timeout) {
     this.taskService = taskService
     this.securityContext = securityContext
     this.$state = $state
-    this.$location = $location
     this.reloadFilter()
     $scope.$watch(()=>this.filter, (newValue, oldValue) => {
       if (this.initializing) {
@@ -70,12 +69,6 @@ export class TemplateListController {
     }
 
     this.$state.go('.', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-
-    // if (this.$location.path() === '/templates') {
-    //   this.$state.go('templates', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-    // } else {
-    //   this.$state.go('assignLesson', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-    // }
 
     this.loadTemplates(filter)
   }

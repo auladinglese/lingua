@@ -1,6 +1,6 @@
 import { OauthService } from './OauthService'
 import { UserService } from './UserService'
-import { ProfileService } from '../tasks/ProfileService'
+import { ProfileService } from '../home/ProfileService'
 import { SecurityContext } from './SecurityContext'
 
 export class RegistrationController {

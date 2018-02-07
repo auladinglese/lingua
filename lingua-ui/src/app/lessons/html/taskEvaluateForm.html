@@ -1,18 +1,18 @@
 <div class="task-details">
   <p><small>* Do not forget to SAVE before closing the task.</small></p>
-  <h5 class="text-primary">{{ complete.task.level }} / {{ complete.task.category }} / {{ complete.task.subject }}</h5>
-  <h4 class="text-primary">{{ complete.task.name }}</h4>
-  <p ng-if="assign.task.instructions">{{ complete.task.instructions }}</p>
-  <p ng-if="assign.task.sourceType === 'text'">{{ complete.task.source }}</p>
-  <p><a class="text-info source-link" ng-if="assign.task.sourceType === 'url'" href="{{assign.task.source}}" target=”_blank”>{{ complete.task.source }}</a></p>
+  <h5 class="text-primary">{{ taskCtrl.task.level }} / {{ taskCtrl.task.category }} / {{ taskCtrl.task.subject }}</h5>
+  <h4 class="text-primary">{{ taskCtrl.task.name }}</h4>
+  <p ng-if="teacher.task.instructions">{{ taskCtrl.task.instructions }}</p>
+  <p ng-if="teacher.task.sourceType === 'text'">{{ taskCtrl.task.source }}</p>
+  <p><a class="text-info source-link" ng-if="teacher.task.sourceType === 'url'" href="{{teacher.task.source}}" target=”_blank”>{{ taskCtrl.task.source }}</a></p>
 
-  <form ng-submit="complete.saveEvaluation()">
-    <div class="form-group" ng-repeat="q in complete.task.questions">
+  <form ng-submit="taskCtrl.saveTaskEvaluation()">
+    <div class="form-group" ng-repeat="q in taskCtrl.task.questions">
       <h6 class="text-info">{{ q.question }}</h6>
       <h6 ng-if="q.type === 'open'">{{ q.studentAnswer }}</h6>
       <div class="form-check multiple-answers">
         <label class="form-check-label" ng-repeat="answer in q.answers">
-        <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="assign.lesson.dateSubmitted">
+        <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="teacher.lesson.dateSubmitted">
           {{ answer }}
       </label>
       </div>

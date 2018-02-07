@@ -1,0 +1,90 @@
+<div class="form-group">
+  <label for="level">Level</label>
+  <select id="level" class="form-control" ng-model="form.template.level" ng-options="level for level in form.levels">
+    <option disabled selected value> -- Select Level -- </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="category">Category</label>
+  <select id="category" class="form-control" ng-model="form.template.category" ng-options="level for level in form.categories">
+    <option disabled selected value> -- Select Category -- </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="subject">Subject</label>
+  <input id="subject" type="text" class="form-control" ng-model="form.template.subject" placeholder="e.g. Food">
+</div>
+
+<div class="form-group">
+  <label for="name">Name</label>
+  <input id="name" type="text" class="form-control" ng-model="form.template.name" placeholder="e.g. Ordering at a restaurant">
+</div>
+
+<div class="form-group">
+  <label for="instructions">Instructions (optional)</label>
+  <textarea id="instructions" class="form-control" ng-model="form.template.instructions" placeholder="Your text"></textarea>
+</div>
+
+<div class="form-group">
+  <label for="source">Source</label>
+  <fieldset class="form-group radio">
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="form.template.sourceType" value="url" >
+      Url
+    </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="form.template.sourceType" value="text">
+      Text
+    </label>
+    </div>
+  </fieldset>
+  <input id="source" type="text" class="form-control" ng-model="form.template.source" ng-if="form.template.sourceType == 'url'" placeholder="e.g. Url to youtube video">
+  <textarea id="source" class="form-control" ng-if="form.template.sourceType == 'text'" ng-model="form.template.source" rows="5" placeholder="Your text"></textarea>
+</div>
+
+<h5 class="text-info">QUESTIONS</h5>
+
+<div class="questions" ng-repeat="questions in form.template.questions track by $index" ng-init="$indexQ = $index">
+  <div class="btn btn-danger del" ng-click="form.deleteQuestion($indexQ)">&times;</div>
+
+  <div class="form-group">
+    <label class="text-info" for="question{{$index+1}}">Question {{$index+1}}</label>
+    <input id= "question{{$index+1}}" type="text" class="form-control" ng-model="form.template.questions[$indexQ].question" required>
+  </div>
+
+  <fieldset class="form-group radio">
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="form.template.questions[$indexQ].type" value="open" ng-click="form.clearAnswers($indexQ)">
+      Open Answer
+    </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input" ng-model="form.template.questions[$indexQ].type" value="multi">
+      Multiple Choice
+    </label>
+    </div>
+  </fieldset>
+
+  <div class="answers" ng-show="form.template.questions[$indexQ].type == 'multi'">
+    <h6 class="text-success">Q{{$index+1}} ANSWERS</h6>
+
+    <div ng-repeat="answer in form.template.questions[$indexQ].answers track by $index" ng-if="form.template.questions[$indexQ].type == 'multi'">
+      <div class="form-group">
+        <div class="btn btn-secondary del" ng-click="form.deleteAnswer($indexQ, $index)">&times;</div>
+        <label for="answer{{$index+1}}">Answer {{$index+1}}</label>
+        <input id="answer{{$index+1}}" type="text" class="form-control" ng-model="form.template.questions[$indexQ].answers[$index]">
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-success" ng-click="template.addAnswer($indexQ)">Add answer</button>
+  </div>
+</div>
+
+<button type="button" class="btn btn-outline-info" ng-click="template.addQuestion()">Add question</button>

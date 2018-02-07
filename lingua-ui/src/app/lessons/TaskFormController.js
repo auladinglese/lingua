@@ -2,7 +2,7 @@ import {TaskService} from './TaskService'
 import { SecurityContext } from '../auth/SecurityContext'
 
 
-export class TemplateController {
+export class TaskFormController {
   static $inject = [ 'TaskService', 'SecurityContext', '$state', '$stateParams', '$scope', '$window']
 
   levels = ['Beginner', 'Intermediate', 'Advanced']

@@ -34,7 +34,7 @@ export class LessonService {
       method: 'POST',
       url: `${apiEndpoint}lesson/` + id,
       data: lesson
-    })
+    }).then(response => response.data)
   }
 
   delete(id){

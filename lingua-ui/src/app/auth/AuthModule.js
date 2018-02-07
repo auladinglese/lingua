@@ -1,4 +1,4 @@
-import * as angular from 'angular'
+import angular from 'angular'
 import { LoginController } from './LoginController'
 import { RegistrationController } from './RegistrationController'
 import { OauthService } from './OauthService'
@@ -23,13 +23,13 @@ angular.module('auth', ['ui.router'])
         $stateProvider.state({
             name: 'login',
             url: '/login',
-            templateUrl: '/app/auth/login.html',
+            templateUrl: '/app/auth/html/login.html',
             controller: 'LoginController as login'
         })
         $stateProvider.state({
             name: 'registration',
             url: '/registration',
-            templateUrl: '/app/auth/registration.html',
+            templateUrl: '/app/auth/html/registration.html',
             controller: 'RegistrationController as reg'
         })
     }])

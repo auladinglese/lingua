@@ -17,7 +17,6 @@ const taskSchema = Joi.object().keys({
     sourceType: Joi.string(),
     questions: Joi.array().items(Joi.object().keys({
       question: Joi.string().required(),
-      // maxScore: Joi.number(),
       type: Joi.string().required(),
       answers: Joi.array().items(Joi.string()),
       studentAnswer: Joi.alternatives([Joi.string(), Joi.object()]),
