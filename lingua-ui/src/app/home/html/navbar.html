@@ -9,29 +9,20 @@
       <li class="nav-item">
         <a class="nav-link" ui-sref="about">About Lingua</a>
       </li>
-      <!-- <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
-        <a class="nav-link" ui-sref="taskForm">New Template</a>
-      </li> -->
-      <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
+      <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher'">
         <a class="nav-link" ui-sref="templates">My Templates</a>
       </li>
-      <li class="nav-item" ng-if="login.securityContext.getUser().role === 'student' || login.securityContext.getUser().role === 'admin'">
-        <a class="nav-link" ui-sref="lessons">My Lessons</a>
+      <li class="nav-item" ng-if="login.securityContext.getUser().role === 'student'">
+        <a class="nav-link" ui-sref="lessons({ studentId: login.securityContext.getUser().userId })">My Lessons</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" ui-sref="lessons({ studentId: 'f85f363f-469d-44d5-bf85-3d3295b3c1b3'})" ng-if="login.securityContext.getUser().role === 'admin'">Admin</a>
-      </li> -->
       <li class="nav-item">
         <a class="nav-link" ng-if="login.securityContext.getToken()" ui-sref="dashboard">My Dashboard</a>
       </li>
-      <!-- <li class="nav-item" ng-if="login.securityContext.getUser().role === 'teacher' || login.securityContext.getUser().role === 'admin'">
-        <a class="nav-link" ui-sref="evaluateLesson">Evaluate</a>
-      </li> -->
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <button class="btn btn-secondary my-2 my-sm-0" ui-sref="login" ng-if="!login.securityContext.getToken()">login</button>
-      <button class="btn btn-secondary my-2 my-sm-0" ui-sref="registration" ng-if="!login.securityContext.getToken()">register</button>
-      <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getToken()" ng-click="login.logout()">logout</button>
+      <button class="btn btn-secondary my-2 my-sm-0" ui-sref="login" ng-if="!login.securityContext.getUser().role">login</button>
+      <button class="btn btn-secondary my-2 my-sm-0" ui-sref="registration" ng-if="!login.securityContext.getUser().role">register</button>
+      <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getUser().role" ng-click="login.logout()">logout</button>
     </form>
   </div>
 </nav>

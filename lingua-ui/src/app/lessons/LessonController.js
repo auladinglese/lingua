@@ -21,6 +21,9 @@ export class LessonController {
     this.$state = $state
     this.$scope = $scope
 
+    this.userService.getById(this.$stateParams.studentId)
+      .then(student => this.student = student)
+
     this.getLessonsList()
 
     if (this.$stateParams.lessonId) {
@@ -30,13 +33,7 @@ export class LessonController {
       this.getTaskList(this.$stateParams.lessonId)
     }
 
-    $scope.$watch(()=>this.$state.params.taskId, (newValue, oldValue) => {
-      if (!this.$state.params.taskId && this.lesson) {
-        this.openLesson(this.lesson.id, this.new? true : false )
-      }
-    }, true)
-
-    $scope.$watch(()=>this.lessonTasksDetailed, (newValue, oldValue) => {
+    this.$scope.$watch(()=>this.lessonTasksDetailed, (newValue, oldValue) => {
       if (this.initializing) {
         $timeout(() => this.initializing = false );
       } else {
@@ -47,21 +44,15 @@ export class LessonController {
       }
     }, true)
 
+    this.$scope.$on('taskUpdate', () => this.getTaskList(this.lesson.id))
+    this.$scope.$on('lessonUpdate', () => this.clearTaskList())
+    this.$scope.$on('openLesson', (event, args) => this.openLesson(args.lessonId, true))
 
   }
 
   getLessonsList(){
-    if (this.$stateParams.studentId){
-      this.userService.getById(this.$stateParams.studentId)
-        .then(student => {
-          this.student = student
-          this.lessonService.list('?studentId=' + this.$stateParams.studentId)
-            .then(lessons => this.lessons = lessons)
-        })
-    } else {
-      this.lessonService.list('?studentId=' + this.securityContext.getUser().userId)
-        .then(lessons => this.lessons = lessons)
-    }
+    this.lessonService.list('?studentId=' + this.$stateParams.studentId)
+      .then(lessons => this.lessons = lessons)
   }
 
   getTaskList(lessonId){
@@ -83,6 +74,7 @@ export class LessonController {
   }
 
   openLesson(lessonId, unassigned = false){
+    this.clearTaskList()
     this.getTaskList(lessonId)
       .then(() => {
         if (unassigned){
@@ -94,90 +86,16 @@ export class LessonController {
       })
   }
 
-  createLesson(){
-    this.clearView()
-    this.lesson = {
-      teacherId: this.securityContext.getUser().userId,
-      studentId: this.$stateParams.studentId,
-      tasks: []
-    }
-    this.lessonService.createNew(this.lesson)
-      .then(lesson => {
-        this.getLessonsList()
-        this.openLesson(lesson.id, true)
-        this.$state.go('.', {lessonId: lesson.id, new: 'new'})
-      })
-  }
-
-  addTask(task){
-    task.studentId = this.$stateParams.studentId
-    this.taskService.createNew(task)
-      .then((task) => {
-        this.lesson.tasks.push(task.id)
-        this.lessonService.update(this.$state.params.lessonId, this.lesson)
-          .then(() => {
-            if (this.saveAsTemplate){
-              task.studentId = null
-              this.taskService.createNew(task)
-            }
-            this.backToLesson()
-          })
-      })
-  }
-
-  deleteTask(task) {
-    this.taskService.delete(task.id)
-      .then(() => {
-        this.lesson.tasks.splice(this.lesson.tasks.indexOf(task.id), 1)
-        this.lessonService.update(this.lesson.id, this.lesson)
-          .then(lesson => {
-            this.lessonTasksDetailed = []
-            this.openLesson(this.lesson.id, true)
-          })
-      })
-  }
-
-  deleteLesson(){
-    this.lessonService.delete(this.lesson.id)
-      .then(() => this.clearView())
-  }
-
-  assignLesson(){
-    this.lesson.dateAssigned = moment()
-    this.lessonService.update(this.lesson.id, this.lesson)
-      .then(() => this.clearView())
-  }
-
-  submitLesson(){
-    this.lesson.dateSubmitted = moment()
-    this.lessonService.update(this.lesson.id, this.lesson)
-      .then(() => {
-        this.getLessonsList()
-        this.openLesson(this.lesson.id)
-      })
-  }
-
-  submitEvaluation(){
-    this.lesson.dateEvaluated = moment()
-    this.lessonService.update(this.lesson.id, this.lesson)
-      .then(() => this.clearView())
-  }
-
-  clearView(){
+  clearTaskList(){
     this.lesson = null
     this.lessonTasksDetailed = []
     this.new = null
     this.tasksUnevaluated = 1
+    this.tasksIncomplete = 1
     this.getLessonsList()
+    this.$scope.$broadcast('lessonChange')
     this.$state.go('.', {lessonId: null, new: null})
   }
 
-  toNewTask(){
-    this.$state.go('addTask', {studentId: this.$stateParams.studentId, lessonId: this.$state.params.lessonId, level: this.$stateParams.level, category: this.$stateParams.category, subject: this.$stateParams.subject, name: this.$stateParams.name, templateId: null, taskId: null})
-  }
-
-  backToLesson(){
-    this.$state.go('lessons', {studentId: this.$stateParams.studentId, lessonId: this.$stateParams.lessonId, level: this.$stateParams.level, category: this.$stateParams.category, subject: this.$stateParams.subject, name: this.$stateParams.name, new: 'new'})
-  }
 
 }

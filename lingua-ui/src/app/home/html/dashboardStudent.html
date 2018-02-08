@@ -5,7 +5,7 @@
       <h6>Assigned: <strong class="text-danger">{{ dashStu.countAssigned? dashStu.countAssigned : 'none' }}</strong></h6>
       <h6>Awaiting evaluation: {{ dashStu.countAwaiting? dashStu.countAwaiting : 'none' }}</h6>
       <h6>Evaluated: {{ dashStu.countEvaluated? dashStu.countEvaluated : 'none' }}</h6>
-      <a ui-sref="lessons"><strong>Go to My Lessons</strong></a>
+      <a ui-sref="lessons({ studentId: dashStu.securityContext.getUser().userId })"><strong>Go to My Lessons</strong></a>
     </div>
   </div>
 

@@ -1,28 +1,19 @@
 import { TaskService } from './TaskService'
-import { LessonService } from './LessonService'
-import { SecurityContext } from '../auth/SecurityContext'
-import moment from 'moment'
 
 export class TaskController {
-  static $inject = ['TaskService', 'LessonService', 'SecurityContext', '$stateParams', '$state', '$scope']
+  static $inject = ['TaskService', '$stateParams', '$state', '$scope']
 
-  constructor(taskService, lessonService, securityContext, $stateParams, $state, $scope) {
+  constructor(taskService, $stateParams, $state, $scope) {
     this.taskService = taskService
-    this.lessonService = lessonService
-    this.securityContext = securityContext
     this.$state = $state
+    this.$scope = $scope
 
-    $scope.$watch(()=>$stateParams.taskId, (newValue, oldValue) => {
-      if ($stateParams.taskId) {
-        this.taskService.getById($stateParams.taskId)
-          .then(task => {
-            this.task = task
-          })
-      } else {
-        this.task = {}
-      }
-    }, true)
+    if ($stateParams.taskId) {
+      this.taskService.getById($stateParams.taskId)
+        .then(task => this.task = task)
+    }
 
+    this.$scope.$on('lessonChange', () => this.task = {})
   }
 
   openTask(taskId){
@@ -34,19 +25,25 @@ export class TaskController {
   }
 
   closeTask(){
+    this.task = {}
     this.$state.go('.', {taskId: null})
   }
 
   saveTaskAnswers(){
     this.task.dateWorked = moment()
     this.taskService.editTask(this.task.id, this.task)
-      .then(() => this.$state.go('.', {taskId: null}))
+      .then(() => this.taskUpdate())
   }
 
   saveTaskEvaluation(){
     this.task.evaluated = true
     this.taskService.editTask(this.task.id, this.task)
-    .then(() => this.$state.go('.', {taskId: null}))
+      .then(() => this.taskUpdate())
+  }
+
+  taskUpdate(){
+    this.closeTask()
+    this.$scope.$emit('taskUpdate')
   }
 
 

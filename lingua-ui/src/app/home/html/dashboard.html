@@ -3,8 +3,8 @@
     <div class="col-sm-11 offset-sm-1">
       <h3 class="text-primary">WELCOME, {{ dash.securityContext.getUser().name }}!</h3>
 
-      <div ng-if="dash.securityContext.getUser().role == 'teacher' || dash.securityContext.getUser().role == 'admin'" ng-include="'app/home/html/dashboardTeacher.html'"></div>
-      <div ng-if="dash.securityContext.getUser().role == 'student' || dash.securityContext.getUser().role == 'admin'" ng-include="'app/home/html/dashboardStudent.html'"></div>
+      <div ng-if="dash.securityContext.getUser().role == 'teacher'" ng-include="'app/home/html/dashboardTeacher.html'"></div>
+      <div ng-if="dash.securityContext.getUser().role == 'student'" ng-include="'app/home/html/dashboardStudent.html'"></div>
 
     </div>
   </div>

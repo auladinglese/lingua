@@ -1,4 +1,4 @@
-<div class="container-fluid task-assignment">
+<div class="container-fluid task-assignment" ng-controller="AddTaskController as addTask">
   <div class="row">
     <div class="col-10 col-sm-4 templates" ng-controller="TemplateListController as templates">
       <h5 class="text-success">FILTER TEMPLATES BY:</h5>
@@ -6,7 +6,7 @@
       <div ng-include="'app/lessons/html/filter.html'"></div>
 
       <h6>SELECT A TEMPLATE TO USE:</h6>
-      <a ng-click="lessonCtrl.toNewTask()" href="">(Remove template)</a>
+      <a ng-click="addTask.toNewTask()" href="">(Remove template)</a>
       <div class="task-list">
         <div class="task-list-item" ng-repeat="template in templates.templates | filter: {studentId: '!'} | orderBy: ['level', 'category']">
           <a ui-sref="addTask({ templateId: template.id })">&raquo; {{template.level}} / {{template.category}} / {{template.subject}} / {{template.name}}</a>
@@ -15,9 +15,9 @@
     </div>
 
     <div class="col-sm-7 task-form" ng-controller="TaskFormController as form">
-      <form ng-submit="lessonCtrl.addTask(form.template)">
+      <form ng-submit="addTask.addTaskToLesson(form.template)">
         <fieldset>
-          <a class="back-to-assignment" href="" ng-click="lessonCtrl.backToLesson()">Back to Lesson Assignment</a>
+          <a class="back-to-assignment" href="" ng-click="addTask.backToLesson()">Back to Lesson Assignment</a>
           <h5 class="text-primary"><strong>CREATE A NEW TASK</strong></h5>
 
           <div ng-include="'app/lessons/html/taskForm.html'"></div>

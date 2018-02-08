@@ -2,7 +2,7 @@
   <h3 ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">Lessons for <span class="text-primary">{{ lessonCtrl.student.name }}</span></h3>
   <h3 class="text-primary" ng-if="lessonCtrl.securityContext.getUser().role === 'student'">My lessons</h3>
 
-  <button class="btn btn-success btn-sm new-lesson" ng-click="lessonCtrl.createLesson()" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">Create lesson</button>
+  <button class="btn btn-success btn-sm new-lesson" ng-click="lessonStat.createLesson()" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">Create lesson</button>
 
   <div class="card border-primary mb-3" ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
     <div class="card-header">Unassigned</div>

@@ -2,7 +2,9 @@ import angular from 'angular'
 import { TaskFormController } from './TaskFormController'
 import { TemplateListController } from './TemplateListController'
 import { LessonController } from './LessonController'
+import { LessonStatusController } from './LessonStatusController'
 import { TaskController } from './TaskController'
+import { AddTaskController } from './AddTaskController'
 import { TaskService } from './TaskService'
 import { LessonService } from './LessonService'
 import '@uirouter/angularjs'
@@ -11,7 +13,9 @@ angular.module('lessons', ['ui.router'])
   .controller('TaskFormController', TaskFormController)
   .controller('TemplateListController', TemplateListController)
   .controller('LessonController', LessonController)
+  .controller('LessonStatusController', LessonStatusController)
   .controller('TaskController', TaskController)
+  .controller('AddTaskController', AddTaskController)
   .service('TaskService', TaskService)
   .service('LessonService', LessonService)
   .config(['$stateProvider', ($stateProvider) => {
@@ -40,7 +44,6 @@ angular.module('lessons', ['ui.router'])
       name: 'lessons',
       url: '/lessons/studentID::studentId&:lessonId&:taskId&:new?level&category&subject&name',
       params: {
-        studentId: {value: null},
         lessonId: {dynamic: true, value: null},
         new: {dynamic: true, value: null},
         taskId: {dynamic: true, value: null},
@@ -56,8 +59,6 @@ angular.module('lessons', ['ui.router'])
       name: 'addTask',
       url: '/add-task/studentID::studentId&:lessonId&:templateId?level&category&subject&name',
       params: {
-        lessonId: {value: null},
-        studentId: {value: null},
         templateId: {value: null},
         level: {dynamic: true},
         category: {dynamic: true},
