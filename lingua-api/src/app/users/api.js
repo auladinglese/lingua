@@ -66,7 +66,7 @@ export function register(server, storage) {
       })
   })
 
-  server.del('/user/:id', mustAuthenticate(), function(req, resp, next) {
+  server.del('/user/:id', function(req, resp, next) {
     storage.delete(req.params.id)
       .then(() => {
         resp.status(204)

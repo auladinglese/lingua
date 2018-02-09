@@ -47,10 +47,7 @@ export class DashboardStudentController {
       })
 
     this.appointmentService.list('?studentId=' + this.securityContext.getUser().userId)
-      .then(appts => {
-        this.appointments = appts.filter(appt => moment(appt.date) > moment().subtract(1, 'days').endOf('day'))
-      })
-
+      .then(appts => this.appointments = appts.filter(appt => moment(appt.date) > moment().subtract(1, 'days').endOf('day')))
 
   }
 
@@ -60,6 +57,7 @@ export class DashboardStudentController {
   }
 
   changeTeacher() {
+    this.changeTeacherWarning = false
     this.profile.currentTeacherId = this.newTeacher.id
     this.profile.teacherConfirmed = false
     this.profileService.update(this.profile.id, this.profile)
@@ -70,9 +68,7 @@ export class DashboardStudentController {
 
   deleteAppointments(){
     if (this.appointments){
-      this.appointments.forEach(appt => {
-        this.appointmentService.delete(appt.id)
-      })
+      this.appointments.forEach(appt => this.appointmentService.delete(appt.id))
       this.appointments = []
     }
   }

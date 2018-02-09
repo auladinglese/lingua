@@ -35,13 +35,14 @@ export class TemplateListController {
   }
 
   delete(template) {
-    this.taskService.delete(template.id)
-      .then(() => {
-        const index = this.templates.indexOf(template)
-        if (index >= 0) {
-          this.templates.splice(index, 1)
-        }
-      })
+    this.deleteTemplateWarning = true
+    this.templateToDelete = template
+  }
+
+  deleteConfirmed() {
+    this.deleteTemplateWarning = false
+    this.taskService.delete(this.templateToDelete.id)
+      .then(() => this.templates.splice(this.templates.indexOf(this.templateToDelete), 1))
   }
 
   filterTemplates(){
@@ -68,9 +69,8 @@ export class TemplateListController {
       filter = filter + '&name=' + this.filter.name
     }
 
-    this.$state.go('.', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
-
     this.loadTemplates(filter)
+    this.$state.go('.', {level: selectedLevels, category: selectedCategories, subject: this.filter.subject, name: this.filter.name})
   }
 
   reloadFilter(){
@@ -101,7 +101,7 @@ export class TemplateListController {
   }
 
   clearFilter(){
-    this.filter = {};
+    this.filter = {}
     this.loadTemplates()
   }
 

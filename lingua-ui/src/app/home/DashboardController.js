@@ -16,6 +16,7 @@ export class DashboardController {
   appointments = []
   updatedMessage = false
 
+
   constructor(securityContext, userService, profileService, lessonService, appointmentService) {
     this.securityContext = securityContext
     this.userService = userService
@@ -104,12 +105,39 @@ export class DashboardController {
 
   declineRequest(student) {
     this.newStudents.splice(this.newStudents.indexOf(student), 1)
-    this.profileService.list('?userId=' + student.id)
+    this.updateStudentProfile(student.id)
+    this.deleteStudentAppointments(student.id)
+  }
+
+  removeStudent(student){
+    this.removeStudentWarning = true
+    this.studentToRemove = student
+  }
+
+  removeStudentConfirmed() {
+    this.removeStudentWarning = false
+    this.myStudents.splice(this.myStudents.indexOf(this.studentToRemove), 1)
+    this.updateStudentProfile(this.studentToRemove.id)
+    this.deleteStudentAppointments(this.studentToRemove.id)
+  }
+
+  updateStudentProfile(id){
+    this.profileService.list('?userId=' + id)
       .then(profile => {
         const studentProfile = profile[0]
         studentProfile.currentTeacherId = null
         studentProfile.teacherConfirmed = null
         this.profileService.update(studentProfile.id, studentProfile)
+      })
+  }
+
+  deleteStudentAppointments(studentId){
+    this.appointmentService.list('?studentId=' + studentId)
+      .then(appointments => {
+        appointments.forEach(appt => {
+          this.appointments.splice(this.appointments.indexOf(appt), 1)
+          this.appointmentService.delete(appt.id)
+        })
       })
   }
 

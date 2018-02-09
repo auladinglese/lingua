@@ -39,7 +39,6 @@ export class MongoTaskStorage {
       .deleteOne({ _id: id })
   }
 
-  // { '$or': [ { level: 'Advanced' }, { level: 'Beginner' } ] }
   createMultiValueFilter(mongoQuery, filter, attribute){
     let multiFilter = []
     for (let i=0; i<filter.length; i++){
@@ -48,7 +47,6 @@ export class MongoTaskStorage {
     return multiFilter
   }
 
-  //tasks?teacherId=1&level=beginner&category=grammar&subject=food&name=smth
   list(filter) {
     const mongoQuery = {}
 

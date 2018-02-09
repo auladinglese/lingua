@@ -17,7 +17,7 @@ angular.module('home', ['ui.router'])
   .config(['$stateProvider', ($stateProvider) => {
     $stateProvider.state({
       name: 'dashboard',
-      url: '/',
+      url: '/dashboard',
       templateUrl: '/app/home/html/dashboard.html',
       controller: 'DashboardController as dash'
     })

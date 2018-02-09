@@ -15,7 +15,6 @@ export class RegistrationController {
     this.$state = $state
     this.$scope = $scope
 
-
   }
 
 
@@ -44,15 +43,20 @@ export class RegistrationController {
         name: 'role',
         value: this.user.role
       }]
-      await this.userService.createNew(this.user)
+      const newUser = await this.userService.createNew(this.user)
       const resp = await this.oauthService.getToken('lingua', 'secret', this.user.username, this.user.password)
-      this.securityContext.setToken(resp.access_token)
-      await this.profileService.createNew({userId: this.securityContext.getUser().userId})
-      this.$state.go('dashboard')
+      const token = resp.access_token
+      if (token){
+        this.securityContext.setToken(token)
+        await this.profileService.createNew({userId: newUser.id})
+        this.$state.go('dashboard')
+      } else {
+        this.userService.delete(newUser.id)
+        this.messages.oops = 'Oops! Something went wrong. Please try again.'
+      }
     } else {
       this.$scope.$apply()
     }
   }
-
 
 }

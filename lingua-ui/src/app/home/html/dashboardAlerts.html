@@ -1,0 +1,19 @@
+<div class="alert alert-dismissible alert-danger warning" ng-if="dash.removeStudentWarning">
+  <button type="button" class="close" ng-click="dash.removeStudentWarning = false">&times;</button>
+  <strong>Are you sure you want to remove this student?</strong>
+  <div class="buttons">
+    <button class="btn btn-danger" ng-click="dash.removeStudentConfirmed()">I'm sure</button>
+    <button class="btn btn-danger" ng-click="dash.removeStudentWarning = false">Cancel</button>
+  </div>
+  <p>* student's appointment data will be deleted</p>
+</div>
+
+<div class="alert alert-dismissible alert-danger warning" ng-if="dashStu.changeTeacherWarning">
+  <button type="button" class="close" ng-click="dashStu.changeTeacherWarning = false">&times;</button>
+  <strong>Are you sure you want to change your teacher?</strong>
+  <div class="buttons">
+    <button class="btn btn-danger" ng-click="dashStu.changeTeacher()">I'm sure</button>
+    <button class="btn btn-danger" ng-click="dashStu.changeTeacherWarning = false">Cancel</button>
+  </div>
+  <p><small>* all your appointment data will be deleted</small></p>
+</div>

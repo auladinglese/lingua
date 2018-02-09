@@ -25,6 +25,7 @@
         </fieldset>
         <button type="submit" class="btn btn-primary btn-block login-button">Register</button>
         <div class="text-danger incomplete" ng-show="form.$submitted && !form.$valid">All fields are required</div>
+        <div class="text-danger">{{ reg.messages.oops }}</div>
       </form>
     </div>
   </div>

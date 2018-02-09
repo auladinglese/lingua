@@ -9,7 +9,7 @@
   <form name="form" ng-submit="form.$valid && taskCtrl.saveTaskEvaluation()" novalidate>
     <div class="form-group" ng-repeat="q in taskCtrl.task.questions">
       <h6 class="text-info">{{ q.question }}</h6>
-      <h6 ng-if="q.type === 'open'">{{ q.studentAnswer }}</h6>
+      <pre ng-if="q.type === 'open'">{{ q.studentAnswer }}</pre>
       <div class="form-check multiple-answers">
         <label class="form-check-label" ng-repeat="answer in q.answers">
         <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="lessonCtrl.lesson.dateSubmitted">

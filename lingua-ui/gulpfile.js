@@ -45,7 +45,6 @@ function createBundler() {
 
 function bundle(bundler) {
   return bundler.bundle()
-    // .on('error', m => console.log(chalk.red('Browserify: ' + m)))
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(gulp.dest('./dist/scripts/'))

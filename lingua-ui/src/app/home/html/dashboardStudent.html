@@ -1,4 +1,4 @@
-<div ng-controller="DashboardStudentController as dashStu">
+<div>
   <div class="card border-primary mb-3 my-lessons">
     <div class="card-header">My Lessons</div>
     <div class="card-body text-dark">
@@ -13,14 +13,15 @@
     <div class="card-header">My Teacher</div>
     <div class="card-body text-dark">
       <h6 class="text-warning" ng-if="dashStu.profile.currentTeacherId && !dashStu.profile.teacherConfirmed">* Awaiting teacher's confirmation *</h6>
-      <h4 class="card-title">{{ dashStu.teacher.name}}</h4>
-      <form name="form" ng-submit="form.$valid && dashStu.changeTeacher()" novalidate>
+      <h4 class="card-title" ng-if="dashStu.profile.currentTeacherId">{{ dashStu.teacher.name}}</h4>
+      <form ng-submit="dashStu.changeTeacher()">
         <label class="text-primary" for="teacher" ng-if="!dashStu.profile.currentTeacherId">Choose Your Teacher</label>
         <label class="text-primary" for="teacher" ng-if="dashStu.profile.currentTeacherId">Change Your Teacher</label>
-        <select id="teacher" class="form-control" ng-model="dashStu.newTeacher" ng-options="teacher.name for teacher in dashStu.teachers" required>
+        <select id="teacher" class="form-control" ng-model="dashStu.newTeacher" ng-options="teacher.name for teacher in dashStu.teachers">
           <option disabled selected value> -- Teachers -- </option>
         </select>
-        <button type="submit" class="btn btn-primary btn-sm">Send Request</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-if="!dashStu.profile.currentTeacherId && dashStu.newTeacher">Send Request</button>
+        <button type="button" class="btn btn-primary btn-sm" ng-if="dashStu.profile.currentTeacherId && dashStu.newTeacher" ng-click="dashStu.changeTeacherWarning = true">Send Request</button>
       </form>
     </div>
   </div>

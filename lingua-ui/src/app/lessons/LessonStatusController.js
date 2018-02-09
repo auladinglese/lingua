@@ -23,7 +23,13 @@ export class LessonStatusController {
   }
 
   deleteLesson(lesson){
-    this.lessonService.delete(lesson.id)
+    this.deleteLessonWarning = true
+    this.lessonToDelete = lesson
+  }
+
+  deleteLessonConfirmed(){
+    this.deleteLessonWarning = false
+    this.lessonService.delete(this.lessonToDelete.id)
       .then(() => this.$scope.$emit('lessonUpdate'))
   }
 

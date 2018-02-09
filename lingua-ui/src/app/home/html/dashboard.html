@@ -1,10 +1,12 @@
 <div class="container-fluid dashboard">
   <div class="row">
-    <div class="col-sm-11 offset-sm-1">
+    <div class="col-sm-11 offset-sm-1" ng-controller="DashboardStudentController as dashStu">
       <h3 class="text-primary">WELCOME, {{ dash.securityContext.getUser().name }}!</h3>
 
       <div ng-if="dash.securityContext.getUser().role == 'teacher'" ng-include="'app/home/html/dashboardTeacher.html'"></div>
       <div ng-if="dash.securityContext.getUser().role == 'student'" ng-include="'app/home/html/dashboardStudent.html'"></div>
+
+      <div ng-include="'app/home/html/dashboardAlerts.html'"></div>
 
     </div>
   </div>

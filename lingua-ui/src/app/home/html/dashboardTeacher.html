@@ -35,7 +35,7 @@
     <div class="card-body text-dark">
       <ul>
         <li ng-repeat="student in dash.myStudents | orderBy: 'name'">
-          <a href="" class="delete" data-toggle="tooltip" data-placement="bottom" title="Remove Student" ng-click="dash.declineRequest(student.id)">&times;</a>
+          <a href="" class="delete" data-toggle="tooltip" data-placement="bottom" title="Remove Student" ng-click="dash.removeStudent(student)">&times;</a>
           <a ui-sref="lessons({ studentId: student.id })">{{ student.name }}</a>
         </li>
       </ul>
