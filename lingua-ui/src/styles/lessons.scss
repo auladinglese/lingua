@@ -1,19 +1,26 @@
-.task-assignment {
+.lessons {
   h3 {
-    margin-top: 0px;
+    margin-top: 0;
   }
+
+  .task-details,
   .task-list {
     margin-top: 20px;
-  }
-  .task-details {
-    margin-top: 30px;
     border: 1px solid $primary;
-    border-radius: 5px;
-    padding: 10px;
+    background-color: white;
+    border-radius: 0.25rem;
+    padding: 15px;
+  }
+.form-check-label{
+  width: fit-content;
+}
+  .submitBtn {
+    margin-bottom: 5px;
+  }
 
+  .task-details {
     strong {
       font-size: 20px;
-      vertical-align: middle;
     }
 
     .multiple-answers {
@@ -21,11 +28,20 @@
 
       label {
         display: block;
+        margin-left: 10px;
       }
     }
 
     .source-link {
       text-decoration: underline;
+    }
+
+    .save-as {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+    .incomplete {
+      margin-top: 3px;
     }
   }
 
@@ -42,26 +58,25 @@
     background-color: lightgray;
   }
 
-  .back-to-assignment {
-    position: relative;
-    top: -20px;
-    color: $primary;
-    text-decoration: underline;
-    text-transform: uppercase;
-  }
-
   .lesson-list {
     button {
       display: block;
     }
 
     .card {
-      width: 175px;
+      width: 178px;
       display: inline-block;
       vertical-align: top;
-      margin-right: 25px;
-      height: 170px;
-      overflow-x: hidden;
+      margin-right: 24px;
+
+      .card-body {
+        height: 100px;
+        overflow-x: hidden;
+
+        ul {
+          margin-bottom: 0;
+        }
+      }
     }
 
     span {
@@ -78,65 +93,17 @@
     }
   }
 
-  .templates {
-    margin-top: 33px;
-    padding-left: 30px;
-    padding-right: 30px;
-
-    h5 {
-      font-weight: 700;
-    }
-
-    h6 {
-      font-weight: 700;
-      margin-top: 20px;
-    }
-
-    .filterBlock {
-      display: inline-block;
-      width: 145px;
-      margin-right: 10px;
-      vertical-align: top;
-
-      h6 {
-        font-weight: 400;
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 0;
-      }
-    }
-
-    .btn {
-      display: block;
-    }
-
-    .task-list {
-      margin-top: 20px;
-
-      a {
-        font-weight: 500;
-        margin-bottom: 10px;
-      }
-
-      .task-list-item {
-        margin-bottom: 10px;
-      }
-    }
-  }
-
   .assigned-task {
     border: 1px solid $primary;
     color: $primary;
     padding: 5px;
     margin-bottom: 5px;
+    margin-top: 5px;
     border-radius: 5px;
     line-height: 31px;
     display: flex;
     align-items: center;
+    position: relative;
 
     h6 {
       margin-bottom: 0;
@@ -148,7 +115,8 @@
 
     .del {
       position: absolute;
-      right: 25px;
+      right: 10px;
+      top: 11px;
       height: 21px;
       width: 21px;
       padding: 0;
@@ -158,16 +126,12 @@
 
     .badge {
       position: absolute;
-      right: 30px;
+      right: 14px;
+      top: 14px;
     }
   }
 
   .add-task-btn {
-    margin-top: 10px;
-  }
-
-  .save-as {
-    margin-left: 20px;
     margin-top: 10px;
   }
 }

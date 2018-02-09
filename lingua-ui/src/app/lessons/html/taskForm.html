@@ -1,25 +1,29 @@
 <div class="form-group">
   <label for="level">Level</label>
-  <select id="level" class="form-control" ng-model="form.template.level" ng-options="level for level in form.levels">
+  <select id="level" name="level" class="form-control" ng-model="form.template.level" ng-options="level for level in form.levels" required>
     <option disabled selected value> -- Select Level -- </option>
   </select>
+  <div ng-show="formVal.level.$touched && !formVal.level.$valid" class="text-danger">Level is required</div>
 </div>
 
 <div class="form-group">
   <label for="category">Category</label>
-  <select id="category" class="form-control" ng-model="form.template.category" ng-options="level for level in form.categories">
+  <select id="category" name="category" class="form-control" ng-model="form.template.category" ng-options="level for level in form.categories" required>
     <option disabled selected value> -- Select Category -- </option>
   </select>
+  <div ng-show="formVal.category.$touched && !formVal.category.$valid" class="text-danger">Category is required</div>
 </div>
 
 <div class="form-group">
   <label for="subject">Subject</label>
-  <input id="subject" type="text" class="form-control" ng-model="form.template.subject" placeholder="e.g. Food">
+  <input id="subject" name="subject" type="text" class="form-control" ng-model="form.template.subject" placeholder="e.g. Food" required>
+  <div ng-show="formVal.subject.$touched && !formVal.subject.$valid" class="text-danger">Subject is required</div>
 </div>
 
 <div class="form-group">
   <label for="name">Name</label>
-  <input id="name" type="text" class="form-control" ng-model="form.template.name" placeholder="e.g. Ordering at a restaurant">
+  <input id="name" name="name" type="text" class="form-control" ng-model="form.template.name" placeholder="e.g. Ordering at a restaurant" required>
+  <div ng-show="formVal.name.$touched && !formVal.name.$valid" class="text-danger">Name is required</div>
 </div>
 
 <div class="form-group">
@@ -49,37 +53,39 @@
 
 <h5 class="text-info">QUESTIONS</h5>
 
-<div class="questions" ng-repeat="questions in form.template.questions track by $index" ng-init="$indexQ = $index">
+<div class="questions" ng-repeat="question in form.template.questions track by $index" ng-init="$indexQ = $index">
   <div class="btn btn-danger del" ng-click="form.deleteQuestion($indexQ)">&times;</div>
 
   <div class="form-group">
     <label class="text-info" for="question{{$index+1}}">Question {{$index+1}}</label>
-    <input id= "question{{$index+1}}" type="text" class="form-control" ng-model="form.template.questions[$indexQ].question" required>
+    <input id="question{{$index+1}}" name="question{{$index+1}}" type="text" class="form-control" ng-model="question.question" required>
+    <div ng-show="formVal.question{{$index+1}}.$touched && !formVal.question{{$index+1}}.$valid" class="text-danger">Question cannot be empty. Please delete it.</div>
   </div>
 
   <fieldset class="form-group radio">
     <div class="form-check">
       <label class="form-check-label">
-      <input type="radio" class="form-check-input" ng-model="form.template.questions[$indexQ].type" value="open" ng-click="form.clearAnswers($indexQ)">
+      <input type="radio" class="form-check-input" ng-model="question.type" value="open" ng-click="form.clearAnswers($indexQ)">
       Open Answer
     </label>
     </div>
     <div class="form-check">
       <label class="form-check-label">
-      <input type="radio" class="form-check-input" ng-model="form.template.questions[$indexQ].type" value="multi">
+      <input type="radio" class="form-check-input" ng-model="question.type" value="multi">
       Multiple Choice
     </label>
     </div>
   </fieldset>
 
-  <div class="answers" ng-show="form.template.questions[$indexQ].type == 'multi'">
+  <div class="answers" ng-show="question.type == 'multi'">
     <h6 class="text-success">Q{{$index+1}} ANSWERS</h6>
 
-    <div ng-repeat="answer in form.template.questions[$indexQ].answers track by $index" ng-if="form.template.questions[$indexQ].type == 'multi'">
+    <div ng-repeat="answer in question.answers track by $index" ng-if="question.type == 'multi'">
       <div class="form-group">
         <div class="btn btn-secondary del" ng-click="form.deleteAnswer($indexQ, $index)">&times;</div>
         <label for="answer{{$index+1}}">Answer {{$index+1}}</label>
-        <input id="answer{{$index+1}}" type="text" class="form-control" ng-model="form.template.questions[$indexQ].answers[$index]">
+        <input id="answer{{$index+1}}" name="answer{{$index+1}}" type="text" class="form-control" ng-model="question.answers[$index]" required>
+        <div ng-show="formVal.answer{{$index+1}}.$touched && !formVal.answer{{$index+1}}.$valid" class="text-danger">Answer cannot be empty. Please delete it.</div>
       </div>
     </div>
 

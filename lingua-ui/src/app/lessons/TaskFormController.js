@@ -63,6 +63,10 @@ export class TaskFormController {
       this.template.questions[qi].answers.splice(ai, 1)
   }
 
+  resetForm(){
+    this.$state.reload()
+  }
+
   backToTop(){
     this.$window.scroll(0,0)
     this.savedAlert = false

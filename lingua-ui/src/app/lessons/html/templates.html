@@ -1,13 +1,13 @@
 <div class="container-fluid all-templates">
   <div class="row">
     <div class="col-sm-4 col-md-2 filterBar">
-      <a class="btn btn-primary" ui-sref="taskForm">New Template</a>
       <h5 class="text-success">FILTER BY:</h5>
       <div ng-include="'app/lessons/html/filter.html'"></div>
     </div>
 
     <div class="col-sm-12 col-md-9">
       <h3 class="text-primary">TASK TEMPLATES</h3>
+      <a class="btn btn-primary" ui-sref="taskForm">New Template</a>
       <div class="row">
         <div class="col-12 col-sm-11" ng-repeat="template in templates.templates | orderBy: ['level', 'category']">
           <div class="card border-dark mb-3">

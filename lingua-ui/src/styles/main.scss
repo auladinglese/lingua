@@ -8,15 +8,9 @@ $success: #93C54B;
 $secondary: #8E8C84;
 $dark: #3E3F3A;
 
-body{
+body {
   background-color: #F2F2F2;
 }
-// 
-// .ng-hide-add,
-// .ng-hide-remove {
-//   display: none !important;
-// }
-
 
 .navbar {
   .form-inline button {
@@ -39,6 +33,19 @@ body{
   }
 }
 
+.about {
+  h2 {
+    margin: 30px 0;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  a {
+    color: $dark;
+    text-decoration: underline;
+  }
+
+}
+
 .saveBtn {
   font-size: 18px;
   margin-top: 20px;
@@ -50,13 +57,17 @@ body{
   input {
     margin-top: 15px;
   }
-
 }
 
-.reg-form{
-  .form-control, fieldset {
-      margin-top: 15px;
+.reg-form {
+  .form-control,
+  fieldset {
+    margin-top: 15px;
   }
+}
+
+textarea {
+  overflow-x: hidden;
 }
 
 .loader {
@@ -68,7 +79,7 @@ body{
   width: 100%;
 }
 @import './templateForm.scss';
-@import './allTemplates.scss';
-@import './assignLesson.scss';
-@import './completeLesson.scss';
+@import './templates.scss';
+@import './lessons.scss';
+@import './lessonAddTask.scss';
 @import './dashboard.scss';

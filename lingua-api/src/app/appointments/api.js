@@ -6,9 +6,9 @@ import { mustAuthenticate } from '../auth'
 const appointmentSchema = Joi.object().keys({
     teacherId: Joi.string().required(),
     studentId: Joi.string().required(),
-    date: Joi.date().iso().allow(null),
-    time: Joi.string().allow(null),
-    duration: Joi.string().allow(null),
+    date: Joi.date().iso().required(),
+    time: Joi.string().required(),
+    duration: Joi.string().required(),
     status: Joi.string(),
     message: Joi.string(),
     reply: Joi.string()

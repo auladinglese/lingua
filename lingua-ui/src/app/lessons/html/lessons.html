@@ -1,4 +1,4 @@
-<div class="container-fluid task-assignment" ng-controller="LessonStatusController as lessonStat">
+<div class="container-fluid lessons" ng-controller="LessonStatusController as lessonStat">
   <div class="row">
 
     <div class="col-sm-10 offset-sm-1">
@@ -7,44 +7,46 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-9 offset-sm-1 task-list" ng-controller="TaskController as taskCtrl">
-      <div ng-controller="AddTaskController as addTask">
-        <h4 class="text-primary" ng-if="lessonCtrl.lesson">TASKS</h4>
-        <div ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
-          <h4 ng-if="!lessonCtrl.new && lessonCtrl.lesson.dateAssigned">Lesson assigned on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, HH:mm'}} <a href="" class="delete-lesson" ng-click="lessonStat.deleteLesson(lessonCtrl.lesson)">- DELETE THIS LESSON -</a></h4>
-          <h4 ng-if="lessonCtrl.new">New lesson <a href="" class="delete-lesson" ng-click="lessonStat.deleteLesson(lessonCtrl.lesson)">- DELETE THIS LESSON -</a></h4>
-        </div>
-
-        <div ng-if="lessonCtrl.securityContext.getUser().role === 'student'">
-          <h4 ng-if="lessonCtrl.lesson">Lesson assigned on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, HH:mm'}}</h4>
-          <button class="btn btn-danger btn-lg submitBtn" ng-click="lessonStat.submitLesson(lessonCtrl.lesson)" ng-if="lessonCtrl.tasksIncomplete == '0' && !lessonCtrl.lesson.dateSubmitted">Submit for evaluation</button>
-        </div>
-
-        <div class="badge badge-pill badge-info submited-note" ng-if="lessonCtrl.lesson.dateSubmitted && !lessonCtrl.lesson.dateEvaluated">Lesson was submited for evaluation at {{ lessonCtrl.lesson.dateAssigned | date:'HH:mm' }} on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, yyyy' }}.</div>
-        <div class="badge badge-pill badge-info submited-note" ng-if="lessonCtrl.lesson.dateSubmitted && lessonCtrl.lesson.dateEvaluated">Lesson was evaluated at {{ lessonCtrl.lesson.dateEvaluated | date:'HH:mm' }} on {{ lessonCtrl.lesson.dateEvaluated | date:'MMM d, yyyy' }}.</div>
-
-        <div class="assigned-task" ng-repeat="task in lessonCtrl.lessonTasksDetailed | orderBy:['category', 'level']">
-          <button class="btn btn-primary btn-sm" ng-click="taskCtrl.openTask(task.id)" ng-hide="task.id == taskCtrl.task.id">Open</button>
-          <button class="btn btn-info btn-sm" ng-click="taskCtrl.closeTask()" ng-show="task.id === taskCtrl.task.id">Close</button>
-          <h6>{{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}</h6>
-
+    <div class="col-sm-9 offset-sm-1 " ng-controller="TaskController as taskCtrl">
+      <div class="task-list" ng-if="lessonCtrl.lesson">
+        <div ng-controller="AddTaskController as addTask">
+          <h4 class="text-primary">TASKS</h4>
           <div ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
-            <span class="badge badge-pill badge-danger" ng-if="!task.evaluated && task.completed && lessonCtrl.lesson.dateSubmitted">To Do</span>
-            <span class="badge badge-pill badge-success" ng-if="task.evaluated && !lessonCtrl.lesson.dateEvaluated">Evaluated</span>
-            <div class="btn btn-danger del" ng-click="addTask.deleteTask(task)" ng-if="lessonCtrl.new">&times;</div>
+            <h4 ng-if="!lessonCtrl.new && lessonCtrl.lesson.dateAssigned">Lesson assigned on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, HH:mm'}} <a href="" class="delete-lesson" ng-click="lessonStat.deleteLesson(lessonCtrl.lesson)">- DELETE THIS LESSON -</a></h4>
+            <h4 ng-if="lessonCtrl.new">New lesson <a href="" class="delete-lesson" ng-click="lessonStat.deleteLesson(lessonCtrl.lesson)">- DELETE THIS LESSON -</a></h4>
           </div>
 
           <div ng-if="lessonCtrl.securityContext.getUser().role === 'student'">
-            <span class="badge badge-pill badge-danger" ng-if="!task.dateWorked && !task.completed">To Do</span>
-            <span class="badge badge-pill badge-warning" ng-if="task.dateWorked && !task.completed">In Progress</span>
-            <span class="badge badge-pill badge-success" ng-if="task.completed && !lessonCtrl.lesson.dateSubmitted">Done</span>
+            <h4 ng-if="lessonCtrl.lesson">Lesson assigned on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, HH:mm'}}</h4>
+            <button class="btn btn-danger btn-lg submitBtn" ng-click="lessonStat.submitLesson(lessonCtrl.lesson)" ng-if="lessonCtrl.tasksIncomplete == '0' && !lessonCtrl.lesson.dateSubmitted">Submit for evaluation</button>
           </div>
-        </div>
 
-        <div ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
-          <button class="btn btn-outline-primary btn-sm add-task-btn" ng-click="addTask.toNewTask()" ng-if="lessonCtrl.new">Add Task</button>
-          <button class="btn btn-primary btn-block saveBtn" ng-click="lessonStat.assignLesson(lessonCtrl.lesson)" ng-if="lessonCtrl.lessonTasksDetailed[0] && lessonCtrl.new">Assign lesson</button>
-          <button class="btn btn-primary btn-block saveBtn" ng-click="lessonStat.submitEvaluation(lessonCtrl.lesson)" ng-if="lessonCtrl.tasksUnevaluated == '0' && !lessonCtrl.lesson.dateEvaluated">Submit evaluation</button>
+          <div class="badge badge-pill badge-info submited-note" ng-if="lessonCtrl.lesson.dateSubmitted && !lessonCtrl.lesson.dateEvaluated">Lesson submited for evaluation at {{ lessonCtrl.lesson.dateAssigned | date:'HH:mm' }} on {{ lessonCtrl.lesson.dateAssigned | date:'MMM d, yyyy' }}</div>
+          <div class="badge badge-pill badge-info submited-note" ng-if="lessonCtrl.lesson.dateSubmitted && lessonCtrl.lesson.dateEvaluated">Lesson evaluated at {{ lessonCtrl.lesson.dateEvaluated | date:'HH:mm' }} on {{ lessonCtrl.lesson.dateEvaluated | date:'MMM d, yyyy' }}</div>
+
+          <div class="assigned-task" ng-repeat="task in lessonCtrl.lessonTasksDetailed | orderBy:['category', 'level']">
+            <button class="btn btn-primary btn-sm" ng-click="taskCtrl.openTask(task.id)" ng-hide="task.id == taskCtrl.task.id">Open</button>
+            <button class="btn btn-info btn-sm" ng-click="taskCtrl.closeTask()" ng-show="task.id === taskCtrl.task.id">Close</button>
+            <h6>{{task.level}} / {{task.category}} / {{task.subject}} / {{task.name}}</h6>
+
+            <div ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
+              <span class="badge badge-pill badge-danger" ng-if="!task.evaluated && task.completed && lessonCtrl.lesson.dateSubmitted">To Do</span>
+              <span class="badge badge-pill badge-success" ng-if="task.evaluated && !lessonCtrl.lesson.dateEvaluated">Evaluated</span>
+              <div class="btn btn-danger del" ng-click="addTask.deleteTask(task)" ng-if="lessonCtrl.new">&times;</div>
+            </div>
+
+            <div ng-if="lessonCtrl.securityContext.getUser().role === 'student'">
+              <span class="badge badge-pill badge-danger" ng-if="!task.dateWorked && !task.completed">To Do</span>
+              <span class="badge badge-pill badge-warning" ng-if="task.dateWorked && !task.completed">In Progress</span>
+              <span class="badge badge-pill badge-success" ng-if="task.completed && !lessonCtrl.lesson.dateSubmitted">Done</span>
+            </div>
+          </div>
+
+          <div ng-if="lessonCtrl.securityContext.getUser().role === 'teacher'">
+            <button class="btn btn-outline-primary btn-sm add-task-btn" ng-click="addTask.toNewTask()" ng-if="lessonCtrl.new">Add Task</button>
+            <button class="btn btn-primary btn-block saveBtn" ng-click="lessonStat.assignLesson(lessonCtrl.lesson)" ng-if="lessonCtrl.lessonTasksDetailed[0] && lessonCtrl.new">Assign lesson</button>
+            <button class="btn btn-primary btn-block saveBtn" ng-click="lessonStat.submitEvaluation(lessonCtrl.lesson)" ng-if="lessonCtrl.tasksUnevaluated == '0' && !lessonCtrl.lesson.dateEvaluated">Submit evaluation</button>
+          </div>
         </div>
       </div>
 

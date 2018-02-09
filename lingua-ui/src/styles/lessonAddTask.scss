@@ -1,0 +1,118 @@
+.add-task {
+  .task-form {
+    .form {
+      padding: 10px 0 0 15px;
+      margin-top: 20px;
+      border: 1px solid $primary;
+      background-color: white;
+      border-radius: 0.25rem;
+      padding: 15px;
+    }
+
+    .del {
+      padding: 0;
+      width: 19px;
+      height: 18px;
+      line-height: 18px;
+      position: relative;
+      float: right;
+      font-size: 19px;
+    }
+
+    button {
+      display: block;
+      margin: 10px 0;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .answers {
+      position: relative;
+
+      .del {
+        width: 15px;
+        height: 14px;
+        line-height: 15px;
+        top: 39px;
+        right: 8px;
+        font-size: 16px;
+      }
+    }
+
+    .questions {
+      border: 1px solid lightgray;
+      border-radius: 3px;
+      padding: 10px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    input[type="number"] {
+      width: 70px;
+    }
+
+    .back-to-assignment {
+      color: $primary;
+      text-decoration: underline;
+      text-transform: uppercase;
+    }
+
+    .save-as {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  .templates {
+    margin-top: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h5 {
+      font-weight: 700;
+    }
+
+    h6 {
+      font-weight: 700;
+      margin-top: 20px;
+    }
+
+    .filterBlock {
+      display: inline-block;
+      width: 145px;
+      margin-right: 10px;
+      vertical-align: top;
+
+      h6 {
+        font-weight: 400;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0;
+      }
+    }
+
+    .btn {
+      display: block;
+    }
+
+    .task-list {
+      margin-top: 20px;
+
+      a {
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+
+      .task-list-item {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

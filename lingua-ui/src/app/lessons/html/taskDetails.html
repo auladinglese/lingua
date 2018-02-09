@@ -1,7 +1,7 @@
 <div class="task-details">
   <h5 class="text-primary">{{ taskCtrl.task.level }} / {{ taskCtrl.task.category }} / {{ taskCtrl.task.subject }}</h5>
   <h4 class="text-primary">{{ taskCtrl.task.name }}</h4>
-  <p ng-if="taskCtrl.task.instructions">{{ taskCtrl.task.instructions }}</p>
+  <p ng-if="taskCtrl.task.instructions">TASK INSTRUCTIONS: {{ taskCtrl.task.instructions }}</p>
   <p ng-if="taskCtrl.task.sourceType === 'text'">{{ taskCtrl.task.source }}</p>
   <p><a class="text-info source-link" ng-if="taskCtrl.task.sourceType === 'url'" href="{{taskCtrl.task.source}}" target=”_blank”>{{ taskCtrl.task.source }}</a></p>
 

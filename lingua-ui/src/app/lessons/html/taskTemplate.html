@@ -1,15 +1,16 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-10 offset-sm-2 col-md-8 col-lg-6 col-xl-5 new-template">
-      <form ng-submit="form.saveTemplate()">
+    <div class="col-sm-10 offset-sm-2 col-md-8 col-lg-7">
+      <h3 class="text-primary">NEW / EDIT TASK TEMPLATE</h3>
+      <form name="formVal" ng-submit="formVal.$valid && form.saveTemplate()" class="new-template" novalidate>
         <fieldset>
-          <h3 class="text-primary">NEW / EDIT TASK TEMPLATE</h3>
 
           <div ng-include="'app/lessons/html/taskForm.html'"></div>
 
-          <a class="btn btn-secondary" ui-sref="taskForm({templateId: null})">Clear Form</a>
+          <a class="btn btn-secondary" ng-click="form.resetForm()">Clear Form</a>
           <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Save task template</button>
         </fieldset>
+        <div class="text-danger" ng-show="formVal.$submitted && !formVal.$valid">Not all required fields are completed</div>
       </form>
       <div class="alert alert-dismissible alert-success" ng-show="form.savedAlert">
         <button type="button" class="close" data-dismiss="alert">&times;</button>

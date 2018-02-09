@@ -1,12 +1,13 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-8 offset-2 col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
-      <form class="login-form" ng-submit="login.login()">
+      <form name="form" class="login-form" ng-submit="form.$valid && login.login()" novalidate>
         <h3 class="text-primary">LOGIN DETAILS</h3>
-        <input type="text" class="form-control" ng-model="login.username" placeholder="Your Username">
-        <input type="password" class="form-control" ng-model="login.password" placeholder="Your Password">
+        <input type="text" name="username" class="form-control" ng-model="login.username" placeholder="Your Username" required>
+        <input type="password" name="password" class="form-control" ng-model="login.password" placeholder="Your Password" required>
         <div class="text-danger">{{login.message}}</div>
         <button type="submit" class="btn btn-primary btn-block login-button">Login</button>
+        <div class="text-danger incomplete" ng-show="form.$submitted && !form.$valid">Please enter your login details.</div>
       </form>
     </div>
   </div>

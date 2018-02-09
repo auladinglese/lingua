@@ -73,7 +73,7 @@ export class DashboardStudentController {
       this.appointments.forEach(appt => {
         this.appointmentService.delete(appt.id)
       })
-      delete this.appointments
+      this.appointments = []
     }
   }
 

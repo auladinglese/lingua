@@ -2,17 +2,17 @@
   <p><small>* Do not forget to SAVE before closing the task.</small></p>
   <h5 class="text-primary">{{ taskCtrl.task.level }} / {{ taskCtrl.task.category }} / {{ taskCtrl.task.subject }}</h5>
   <h4 class="text-primary">{{ taskCtrl.task.name }}</h4>
-  <p ng-if="teacher.task.instructions">{{ taskCtrl.task.instructions }}</p>
-  <p ng-if="teacher.task.sourceType === 'text'">{{ taskCtrl.task.source }}</p>
-  <p><a class="text-info source-link" ng-if="teacher.task.sourceType === 'url'" href="{{teacher.task.source}}" target=”_blank”>{{ taskCtrl.task.source }}</a></p>
+  <p ng-if="taskCtrl.task.instructions">TASK INSTRUCTIONS: {{ taskCtrl.task.instructions }}</p>
+  <p ng-if="taskCtrl.task.sourceType === 'text'">{{ taskCtrl.task.source }}</p>
+  <p><a class="text-info source-link" ng-if="taskCtrl.task.sourceType === 'url'" href="{{taskCtrl.task.source}}" target=”_blank”>{{ taskCtrl.task.source }}</a></p>
 
-  <form ng-submit="taskCtrl.saveTaskEvaluation()">
+  <form name="form" ng-submit="form.$valid && taskCtrl.saveTaskEvaluation()" novalidate>
     <div class="form-group" ng-repeat="q in taskCtrl.task.questions">
       <h6 class="text-info">{{ q.question }}</h6>
       <h6 ng-if="q.type === 'open'">{{ q.studentAnswer }}</h6>
       <div class="form-check multiple-answers">
         <label class="form-check-label" ng-repeat="answer in q.answers">
-        <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="teacher.lesson.dateSubmitted">
+        <input class="form-check-input" type="checkbox" ng-model="q.studentAnswer[answer]" ng-disabled="lessonCtrl.lesson.dateSubmitted">
           {{ answer }}
       </label>
       </div>
@@ -21,19 +21,19 @@
         <fieldset class="form-group radio">
           <div class="form-check">
             <label class="form-check-label">
-            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="correct" >
+            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="correct" required>
             Correct
           </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="partCorrect">
+            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="partCorrect" required>
             Partially correct
           </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="incorrect">
+            <input type="radio" class="form-check-input" ng-model="q.evaluation" value="incorrect" required>
             Incorrect
           </label>
           </div>
@@ -43,5 +43,6 @@
 
     </div>
     <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Save changes</button>
+    <div class="text-danger" ng-show="form.$submitted && !form.$valid">Please mark all of the questions. You will be able to amend your marks as long as this evaluation in not submitted.</div>
   </form>
 </div>

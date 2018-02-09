@@ -22,7 +22,7 @@
     <form class="form-inline my-2 my-lg-0">
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="login" ng-if="!login.securityContext.getUser().role">login</button>
       <button class="btn btn-secondary my-2 my-sm-0" ui-sref="registration" ng-if="!login.securityContext.getUser().role">register</button>
-      <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getUser().role" ng-click="login.logout()">logout</button>
+      <button class="btn btn-secondary my-2 my-sm-0" ng-if="login.securityContext.getToken()" ng-click="login.logout()">logout</button>
     </form>
   </div>
 </nav>

@@ -5,8 +5,8 @@ import { mustAuthenticate } from '../auth'
 
 const lessonSchema = Joi.object().keys({
     teacherId: Joi.string().required(),
-    studentId: Joi.string().allow(null),
-    dateAssigned: Joi.date().iso().allow(null),
+    studentId: Joi.string().required(),
+    dateAssigned: Joi.date().iso(),
     dateSubmitted: Joi.date().iso(),
     dateEvaluated: Joi.date().iso(),
     tasks: Joi.array().items(Joi.string()).required()

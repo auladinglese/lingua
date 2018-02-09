@@ -1,4 +1,4 @@
-<div class="container-fluid task-assignment" ng-controller="AddTaskController as addTask">
+<div class="container-fluid add-task" ng-controller="AddTaskController as addTask">
   <div class="row">
     <div class="col-10 col-sm-4 templates" ng-controller="TemplateListController as templates">
       <h5 class="text-success">FILTER TEMPLATES BY:</h5>
@@ -14,22 +14,23 @@
       </div>
     </div>
 
-    <div class="col-sm-7 task-form" ng-controller="TaskFormController as form">
+    <div class="col-sm-7 col-lg-6 task-form" ng-controller="TaskFormController as form">
       <form ng-submit="addTask.addTaskToLesson(form.template)">
         <fieldset>
           <a class="back-to-assignment" href="" ng-click="addTask.backToLesson()">Back to Lesson Assignment</a>
-          <h5 class="text-primary"><strong>CREATE A NEW TASK</strong></h5>
+          <div class="form">
+            <h5 class="text-primary"><strong>CREATE A NEW TASK</strong></h5>
 
-          <div ng-include="'app/lessons/html/taskForm.html'"></div>
+            <div ng-include="'app/lessons/html/taskForm.html'"></div>
 
-          <label class="form-check-label save-as">
+            <label class="form-check-label save-as">
               <input class="form-check-input" type="checkbox" ng-model="lessonCtrl.saveAsTemplate" >
               Save as a new template
             </label>
-          <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Add task to lesson</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block saveBtn">Add task to lesson</button>
+          </div>
         </fieldset>
       </form>
     </div>
   </div>
-
 </div>

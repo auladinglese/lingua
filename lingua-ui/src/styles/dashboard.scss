@@ -5,12 +5,6 @@
     width: 100%;
   }
 
-  .requests, .appointments {
-    li {
-      margin-bottom: 15px;
-    }
-  }
-
   .card {
     max-width: 600px;
     display: inline-block;
@@ -43,7 +37,6 @@
       a {
         color: $primary;
         vertical-align: middle;
-        // text-decoration: underline;
       }
 
       .accept {
@@ -62,12 +55,40 @@
     }
   }
 
+  .top-row {
+    display: block;
+  }
+
   .availability {
     width: 300px;
 
     textarea {
       height: 70px;
     }
+  }
+
+  .appointments,
+  .requests {
+    li {
+      margin-bottom: 15px;
+    }
+  }
+
+  .small-card {
+    width: 205px;
+
+    .card-body {
+      height: 135px;
+      overflow: auto;
+    }
+
+    ul {
+      margin-bottom: 0;
+    }
+  }
+
+  .student-requests {
+    width: 270px;
   }
 
   pre {
@@ -85,5 +106,23 @@
   #datepicker {
     color: #495057;
     padding: 3px 0 3px 15px;
+    width: 130px;
+    height: 35px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+
+  #time {
+    width: 80px;
+    display: inline-block;
+  }
+
+  #duration {
+    width: 100px;
+    display: inline-block;
+  }
+
+  #message {
+    margin-top: 10px;
   }
 }

@@ -1,11 +1,52 @@
 <div ng-controller="DashboardStudentController as dashStu">
-  <div class="card border-primary mb-3">
+  <div class="card border-primary mb-3 my-lessons">
     <div class="card-header">My Lessons</div>
     <div class="card-body text-dark">
       <h6>Assigned: <strong class="text-danger">{{ dashStu.countAssigned? dashStu.countAssigned : 'none' }}</strong></h6>
       <h6>Awaiting evaluation: {{ dashStu.countAwaiting? dashStu.countAwaiting : 'none' }}</h6>
       <h6>Evaluated: {{ dashStu.countEvaluated? dashStu.countEvaluated : 'none' }}</h6>
       <a ui-sref="lessons({ studentId: dashStu.securityContext.getUser().userId })"><strong>Go to My Lessons</strong></a>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3">
+    <div class="card-header">My Teacher</div>
+    <div class="card-body text-dark">
+      <h6 class="text-warning" ng-if="dashStu.profile.currentTeacherId && !dashStu.profile.teacherConfirmed">* Awaiting teacher's confirmation *</h6>
+      <h4 class="card-title">{{ dashStu.teacher.name}}</h4>
+      <form name="form" ng-submit="form.$valid && dashStu.changeTeacher()" novalidate>
+        <label class="text-primary" for="teacher" ng-if="!dashStu.profile.currentTeacherId">Choose Your Teacher</label>
+        <label class="text-primary" for="teacher" ng-if="dashStu.profile.currentTeacherId">Change Your Teacher</label>
+        <select id="teacher" class="form-control" ng-model="dashStu.newTeacher" ng-options="teacher.name for teacher in dashStu.teachers" required>
+          <option disabled selected value> -- Teachers -- </option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">Send Request</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3" ng-if="dashStu.profile.currentTeacherId">
+    <div class="card-header">Request Appointment</div>
+    <div class="card-body text-dark">
+      <h6 class="text-primary">My Teacher's Availability</h6>
+      <pre ng-if="dashStu.teacherProfile.regularAvailability">{{ dashStu.teacherProfile.regularAvailability }}</pre>
+      <pre ng-if="dashStu.teacherProfile.otherAvailability">{{ dashStu.teacherProfile.otherAvailability }}</pre>
+      <form name="form" ng-submit="form.$valid && dashStu.requestAppointment()" novalidate>
+        <label class="text-primary" for="datepicker">Appointment</label>
+        <input id="datepicker" name="date" ng-model="dashStu.apptDate" ds-pikaday placeholder="e.g. 1 Jan 2018" required>
+        <select id="time" name="time" class="form-control" ng-model="dashStu.appointment.time" ng-options="time for time in dashStu.times" required>
+              <option disabled selected value>Time</option>
+        </select>
+        <select id="duration" name="duration" class="form-control" ng-model="dashStu.appointment.duration" ng-options="duration for duration in dashStu.durations" required>
+              <option disabled selected value>Duration</option>
+        </select>
+        <textarea id="message" class="form-control" ng-model="dashStu.appointment.message" rows="1" placeholder="Optional Message"></textarea>
+        <div class="text-secondary"><small>* Date, time and duration are required</small></div>
+        <button type="submit" class="btn btn-primary btn-sm" ng-if="!dashStu.appointment.id">Send Request</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-if="dashStu.appointment.id">Update Request</button>
+      </form>
+      <div class="text-success" ng-if="dashStu.requestSentMessage">Request Sent</div>
+      <div class="text-danger" ng-if="dashStu.dateInvalidMessage && !dashStu.requestSentMessage">Please check the date</div>
     </div>
   </div>
 
@@ -42,43 +83,6 @@
         </li>
       </ul>
 
-    </div>
-  </div>
-
-  <div class="card border-primary mb-3" ng-if="dashStu.profile.currentTeacherId">
-    <div class="card-header">Request Appointment</div>
-    <div class="card-body text-dark">
-      <h6 class="text-primary">My Teacher's Availability</h6>
-      <pre ng-if="dashStu.teacherProfile.regularAvailability">{{ dashStu.teacherProfile.regularAvailability }}</pre>
-      <pre ng-if="dashStu.teacherProfile.otherAvailability">{{ dashStu.teacherProfile.otherAvailability }}</pre>
-      <label for="datepicker">Date</label>
-      <input id="datepicker" type="text" ng-model="dashStu.apptDate" ds-pikaday placeholder="e.g. 1 Jan 2018">
-      <label for="time" ng-model="dashStu.appointment.time">Time</label>
-      <select id="time" class="form-control" ng-model="dashStu.appointment.time" ng-options="time for time in dashStu.times">
-        <option disabled selected value> -- Time -- </option>
-      </select> <label for="duration">Duration</label>
-      <select id="duration" class="form-control" ng-model="dashStu.appointment.duration" ng-options="duration for duration in dashStu.durations">
-        <option disabled selected value> -- Duration -- </option>
-      </select>
-      <textarea class="form-control" ng-model="dashStu.appointment.message" rows="3" placeholder="Optional Message"></textarea>
-      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.requestAppointment()" ng-if="!dashStu.appointment.id">Send Request</button>
-      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.requestAppointment()" ng-if="dashStu.appointment.id">Update Request</button>
-      <div class="text-success" ng-if="dashStu.requestSentMessage">Request Sent.</div>
-      <div class="text-danger" ng-if="dashStu.dateInvalidMessage">Please check the date.</div>
-    </div>
-  </div>
-
-  <div class="card border-primary mb-3">
-    <div class="card-header">My Teacher</div>
-    <div class="card-body text-dark">
-      <h6 class="text-warning" ng-if="dashStu.profile.currentTeacherId && !dashStu.profile.teacherConfirmed">* Awaiting teacher's confirmation *</h6>
-      <h4 class="card-title">{{ dashStu.teacher.name}}</h4>
-      <label class="text-primary" for="teacher" ng-if="!dashStu.profile.currentTeacherId">Choose Your Teacher</label>
-      <label class="text-primary" for="teacher" ng-if="dashStu.profile.currentTeacherId">Change Your Teacher</label>
-      <select id="teacher" class="form-control" ng-model="dashStu.newTeacher" ng-options="teacher.name for teacher in dashStu.teachers">
-        <option disabled selected value> -- Teachers -- </option>
-      </select>
-      <button type="button" class="btn btn-primary btn-sm" ng-click="dashStu.changeTeacher()">Send Request</button>
     </div>
   </div>
 </div>

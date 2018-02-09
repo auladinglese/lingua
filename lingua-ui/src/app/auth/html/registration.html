@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-8 offset-2 col-sm-6 offset-sm-3 col-lg-4 offset-lg-4">
-      <form class="reg-form" ng-submit="reg.register()">
+      <form name="form" class="reg-form" ng-submit="form.$valid && reg.register()" novalidate>
         <h3 class="text-primary">REGISTER NEW USER</h3>
         <input type="text" class="form-control" ng-model="reg.user.name" placeholder="Your Name" required>
         <input type="text" class="form-control" ng-model="reg.user.username" placeholder="Username" required>
@@ -12,7 +12,7 @@
         <fieldset class="form-group radio">
           <div class="form-check">
             <label class="form-check-label">
-          <input type="radio" class="form-check-input" ng-model="reg.user.role" name="role" value="teacher">
+          <input type="radio" class="form-check-input" ng-model="reg.user.role" name="role" value="teacher" required>
           I am a Teacher
         </label>
           </div>
@@ -24,7 +24,7 @@
           </div>
         </fieldset>
         <button type="submit" class="btn btn-primary btn-block login-button">Register</button>
-        <div class="text-success">{{ reg.messages.registered }}</div>
+        <div class="text-danger incomplete" ng-show="form.$submitted && !form.$valid">All fields are required</div>
       </form>
     </div>
   </div>

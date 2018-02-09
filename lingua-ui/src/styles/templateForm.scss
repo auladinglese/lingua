@@ -1,6 +1,10 @@
-.new-template,
-.task-form {
+.new-template{
   padding: 10px 0 0 15px;;
+  margin-top: 20px;
+  border: 1px solid $primary;
+  background-color: white;
+  border-radius: 0.25rem;
+  padding: 15px;
 
   .del {
     padding: 0;
@@ -12,7 +16,7 @@
     font-size: 19px;
   }
 
-  form button {
+  button {
     display: block;
     margin: 10px 0;
   }
