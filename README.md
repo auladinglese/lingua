@@ -3,6 +3,8 @@ Baltic Talents Academy Advanced JS course project
 
 Lingua is a foreign language teacher's tool for an online customised tasks assignment, evaluation and appointment management.
 
+You can see a working version of this project here: https://lingua.salted.lt
+
 If you wish to run the project locally, you will need:
 
 - Node.js (https://nodejs.org/en/)
